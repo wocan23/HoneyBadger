@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>pic/addDoc.png</file>
+        <file>pic/conn.png</file>
+        <file>pic/doc.png</file>
+        <file>pic/editDoc.png</file>
+        <file>pic/index.png</file>
+        <file>pic/search.png</file>
+    </qresource>
+</RCC>
