@@ -17,7 +17,7 @@ signals:
 
 
 public slots:
-   void esItemClicked(QTreeWidgetItem* item, int index);
+   void esItemDoubleClicked(QTreeWidgetItem* item, int index);
    void addConn(Conn *conn);
 };
 

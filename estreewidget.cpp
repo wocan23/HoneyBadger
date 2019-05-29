@@ -8,10 +8,10 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 {
     Handler * hand = Handler::getInstance();
     connect(hand,SIGNAL(addConnSignal(Conn*)),this,SLOT(addConn(Conn*)));
-    connect(this,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(esItemClicked(QTreeWidgetItem*, int)));
+    connect(this,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(esItemDoubleClicked(QTreeWidgetItem*, int)));
 }
 
-void EsTreeWidget::esItemClicked(QTreeWidgetItem* item, int index){
+void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
     EsTreeWidgetItem * esItem = (EsTreeWidgetItem*)item;
     Conn* conn = esItem->getConn();
     // 获取所有索引
