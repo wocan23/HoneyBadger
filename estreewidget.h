@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include<QTreeWidget>
+#include <QTreeWidgetItem>
+#include "conn.h"
 
 class EsTreeWidget : public QTreeWidget
 {
@@ -12,7 +14,11 @@ public:
 
 signals:
 
+
+
 public slots:
+   void esItemClicked(QTreeWidgetItem* item, int index);
+   void addConn(Conn *conn);
 };
 
 #endif // ESTREEWIDGET_H

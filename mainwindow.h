@@ -19,8 +19,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 private slots:
-    void addConn(Conn *conn);
-    void itemClicked(QTreeWidgetItem* item, int index);
+
 private:
     Ui::MainWindow *ui;
     EsToolBar *esToolBar;
