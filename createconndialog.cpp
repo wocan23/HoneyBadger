@@ -9,6 +9,14 @@ CreateConnDialog::CreateConnDialog(QWidget *parent) :
     ui(new Ui::CreateConnDialog)
 {
     ui->setupUi(this);
+    this->ui->ip->setText("10.70.93.52");
+    this->ui->port->setText("9200");
+    this->ui->connName->setText("10.70.93.52");
+    this->ui->ip->setTextMargins(5,0,0,0);
+    this->ui->port->setTextMargins(5,0,0,0);
+    this->ui->connName->setTextMargins(5,0,0,0);
+    this->ui->userName->setTextMargins(5,0,0,0);
+    this->ui->password->setTextMargins(5,0,0,0);
 
     connect(this->ui->btn_submit,SIGNAL(clicked()),this,SLOT(sumbit()));
     connect(this->ui->btn_cancel,SIGNAL(clicked()),this,SLOT(cancel()));

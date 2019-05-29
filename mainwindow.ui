@@ -19,9 +19,9 @@
      <layout class="QVBoxLayout" name="toolBarLayout"/>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,8">
+     <layout class="QHBoxLayout" name="mainLayout" stretch="2,8">
       <item>
-       <widget class="QTreeWidget" name="treeWidget">
+       <widget class="EsTreeWidget" name="treeWidget">
         <property name="columnCount">
          <number>1</number>
         </property>

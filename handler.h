@@ -8,7 +8,7 @@
 class Handler : public QObject
 {
     Q_OBJECT
-public:
+private:
     explicit Handler(QObject *parent = nullptr);
 
 signals:

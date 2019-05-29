@@ -5,6 +5,7 @@
 #include "estoolbar.h"
 #include "handler.h"
 #include "conn.h"
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +20,7 @@ public:
     ~MainWindow();
 private slots:
     void addConn(Conn *conn);
+    void itemClicked(QTreeWidgetItem* item, int index);
 private:
     Ui::MainWindow *ui;
     EsToolBar *esToolBar;

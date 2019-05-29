@@ -36,11 +36,11 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,8">
+    <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,7,1">
      <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>连接名称:</string>
+        <string>名称:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -48,12 +48,29 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="connName"/>
+      <widget class="QLineEdit" name="connName">
+       <property name="cursorPosition">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,8">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,7,1">
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
@@ -67,10 +84,23 @@
      <item>
       <widget class="QLineEdit" name="ip"/>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,8">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,7,1">
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -84,10 +114,23 @@
      <item>
       <widget class="QLineEdit" name="port"/>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,8">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,7,1">
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
@@ -101,10 +144,23 @@
      <item>
       <widget class="QLineEdit" name="userName"/>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,8">
+    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,7,1">
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
@@ -118,17 +174,23 @@
      <item>
       <widget class="QLineEdit" name="password"/>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="2,4,2">
-     <item>
-      <widget class="QPushButton" name="btn_submit">
-       <property name="text">
-        <string>确定</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="4,2,2,1">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -148,6 +210,26 @@
         <string>取消</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_submit">
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

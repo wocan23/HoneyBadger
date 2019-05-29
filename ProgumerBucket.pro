@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +28,10 @@ SOURCES += \
         conn.cpp \
         createconndialog.cpp \
         estoolbar.cpp \
+        estreewidget.cpp \
+        estreewidgetitem.cpp \
         handler.cpp \
+        httputils.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -36,7 +39,10 @@ HEADERS += \
         conn.h \
         createconndialog.h \
         estoolbar.h \
+        estreewidget.h \
+        estreewidgetitem.h \
         handler.h \
+        httputils.h \
         mainwindow.h
 
 FORMS += \
