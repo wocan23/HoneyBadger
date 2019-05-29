@@ -5,6 +5,9 @@
 #include <QTreeWidgetItem>
 #include "conn.h"
 
+enum ESItemType{
+    CONN,INDEX
+};
 
 class EsTreeWidgetItem : public QObject,public QTreeWidgetItem
 {
@@ -13,15 +16,18 @@ public:
     explicit EsTreeWidgetItem(QTreeWidget *parent);
     void setConn(Conn *conn);
     Conn * getConn();
-    bool isIndex();
-    void mouseDoubleClickEvent(QMouseEvent *event) ;
-    void mouseReleaseEvent(QMouseEvent *event);
+    ESItemType getEsItemType();
+    void setEsItemType(ESItemType itemType);
+    bool isOpen();
+    void setOpen(bool open);
 signals:
 
 public slots:
 private:
     Conn* conn;
-    bool isIdx;
+    ESItemType esItemType;
+    bool open;
+
 };
 
 #endif // ESTREEWIDGETITEM_H

@@ -13,24 +13,23 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 
 void EsTreeWidget::esItemClicked(QTreeWidgetItem* item, int index){
     EsTreeWidgetItem * esItem = (EsTreeWidgetItem*)item;
-    qDebug()<< QString(index);
-    qDebug()<< esItem->text(0);
     Conn* conn = esItem->getConn();
-    qDebug()<< conn->getPort();
-    qDebug()<< conn->getId();
+    // 获取所有索引
+    QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
+    HttpUtils * util = HttpUtils::getInstance();
+    QString res = util->Post(url,"{}");
+    qDebug()<<res;
 }
 
 
 void EsTreeWidget::addConn(Conn *conn){
     qDebug()<<"添加连接";
-//    QTreeWidgetItem * tiem = new QTreeWidgetItem;
     EsTreeWidgetItem *connItem = new EsTreeWidgetItem(this);
     connItem->setText(0,conn->getConnName());
     connItem->setIcon(0,QIcon(":/icon/pic/conn.png"));
     connItem->setConn(conn);
+    connItem->setEsItemType(CONN);
+    connItem->setOpen(false);
 
-    QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_search";
-    HttpUtils * util = HttpUtils::getInstance();
-    QString res = util->Post(url,"{}");
-//    qDebug()<< res;
+
 }
