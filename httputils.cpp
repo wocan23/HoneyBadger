@@ -31,3 +31,18 @@ QString HttpUtils::Post(QString url,QString json){
     return result;
 }
 
+QString HttpUtils::Get(QString url){
+    QNetworkAccessManager * _manager = new QNetworkAccessManager;
+    QNetworkRequest request = QNetworkRequest(QUrl(url));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    QNetworkReply *reply = _manager->get(request);
+    QByteArray responseData;
+    QEventLoop eventLoop;
+    connect(_manager, SIGNAL(finished(QNetworkReply*)), &eventLoop,SLOT(quit()));
+    eventLoop.exec();       //block until finish
+    responseData = reply->readAll();
+    QString result;
+    result.prepend(responseData);
+    return result;
+}
+

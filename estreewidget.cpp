@@ -17,7 +17,7 @@ void EsTreeWidget::esItemClicked(QTreeWidgetItem* item, int index){
     // 获取所有索引
     QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
     HttpUtils * util = HttpUtils::getInstance();
-    QString res = util->Post(url,"{}");
+    QString res = util->Get(url);
     qDebug()<<res;
 }
 

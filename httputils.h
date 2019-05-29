@@ -11,6 +11,7 @@ private:
     static HttpUtils * util;
 public:   
     static QString Post(QString url,QString json);
+    static QString Get(QString url);
     static HttpUtils * getInstance();
 signals:
 
