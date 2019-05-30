@@ -6,7 +6,10 @@ EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidget *parent) : QTreeWidgetItem(parent
 {
 
 }
+EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidgetItem *parent) : QTreeWidgetItem(parent)
+{
 
+}
 Conn* EsTreeWidgetItem::getConn(){
     return this->conn;
 }

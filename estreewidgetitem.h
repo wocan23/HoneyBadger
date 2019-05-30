@@ -14,6 +14,7 @@ class EsTreeWidgetItem : public QObject,public QTreeWidgetItem
     Q_OBJECT
 public:
     explicit EsTreeWidgetItem(QTreeWidget *parent);
+    explicit EsTreeWidgetItem(QTreeWidgetItem *parent);
     void setConn(Conn *conn);
     Conn * getConn();
     ESItemType getEsItemType();

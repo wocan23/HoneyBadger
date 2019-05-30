@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
         conn.cpp \
         createconndialog.cpp \
+        esindex.cpp \
         estoolbar.cpp \
         estreewidget.cpp \
         estreewidgetitem.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
 HEADERS += \
         conn.h \
         createconndialog.h \
+        esindex.h \
         estoolbar.h \
         estreewidget.h \
         estreewidgetitem.h \

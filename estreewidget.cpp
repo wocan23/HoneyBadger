@@ -13,12 +13,35 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 
 void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
     EsTreeWidgetItem * esItem = (EsTreeWidgetItem*)item;
-    Conn* conn = esItem->getConn();
-    // 获取所有索引
-    QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
-    HttpUtils * util = HttpUtils::getInstance();
-    QString res = util->Get(url);
-    qDebug()<<res;
+
+    ESItemType esItemType = esItem->getEsItemType();
+    // 如果是连接且未打开获取所有索引
+    if(esItemType == CONN){
+        Conn* conn = esItem->getConn();
+        if(!esItem->isOpen()){
+            QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
+            HttpUtils * util = HttpUtils::getInstance();
+            QString res = util->Get(url);
+
+            conn->parseIndics(res);
+            EsIndex* indics= conn->getIndics();
+            for (int i = 0; i < conn->getIndexSize(); i++) {
+                EsIndex indexObj = indics[i];
+                EsTreeWidgetItem *docItem = new EsTreeWidgetItem(item);
+                docItem->setText(0,indexObj.getName());
+                docItem->setIcon(0,QIcon(":/icon/pic/index.png"));
+                docItem->setEsItemType(INDEX);
+                item->addChild(docItem);
+            }
+        }else{
+
+            esItem->setOpen(false);
+        }
+
+    }else if(esItemType == INDEX){
+        // 是索引
+    }
+
 }
 
 

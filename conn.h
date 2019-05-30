@@ -2,6 +2,7 @@
 #define CONN_H
 
 #include <QString>
+#include "esindex.h"
 
 class Conn
 {
@@ -14,12 +15,18 @@ public:
     QString getIp();
     QString getId();
     QString getConnName();
+    int getIndexSize();
     void setUserName(QString userName);
     void setPwd(QString pwd);
     void setIp(QString ip);
     void setPort(QString port);
     void setId(QString id);
     void setConnName(QString connName);
+    void setIndexSize(int size);
+
+
+    void parseIndics(QString str);
+    EsIndex * getIndics();
 private:
     QString userName;
     QString pwd;
@@ -27,6 +34,9 @@ private:
     QString port;
     QString connName;
     QString id;
+
+    EsIndex *esIndics;
+    int indexSize;
 
 };
 
