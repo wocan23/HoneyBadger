@@ -1,14 +1,15 @@
 #include "esindextabwidegt.h"
 #include "estreewidgetitem.h"
-#include <QTextBrowser>
 #include "handler.h"
+#include <QTextBrowser>
+
 
 #define INDEX_ICON_PATH ":/icon/pic/index.png"
 #define INDEX_QUERY_ICON_PATH ":/icon/pic/search.png"
 
 EsIndexTabWidegt::EsIndexTabWidegt(QWidget *parent) : QTabWidget(parent)
 {
-    Handler* hand = Handler::getInstance();
+    Handler * hand = Handler::getInstance();
     connect(hand,SIGNAL(addTabSignal(Conn*,EsIndex*,TabType)),this,SLOT(addTabPage(Conn*,EsIndex*, TabType)));
 }
 
@@ -36,7 +37,7 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QString tabLabel = indexName +"@"+ connName;
     QIcon icon(INDEX_ICON_PATH);
     QTextBrowser *brower= new QTextBrowser;
-    brower->setText("表格");
+    brower->setText("表格:"+indexName);
     this->addTab(brower,icon,tabLabel);
 
 }
