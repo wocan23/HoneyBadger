@@ -21,6 +21,13 @@ public:
     void setEsItemType(ESItemType itemType);
     bool isOpen();
     void setOpen(bool open);
+
+    void doubleClickConn();
+    void doubleClickIndex();
+    EsIndex *getEsIndex();
+    void setEsIndex(EsIndex* esIndex);
+
+
     ~EsTreeWidgetItem();
 signals:
 
@@ -29,6 +36,7 @@ private:
     Conn* conn;
     ESItemType esItemType;
     bool open;
+    EsIndex* esIndex;
 
 };
 

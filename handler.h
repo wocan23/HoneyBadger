@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QString>
 #include <conn.h>
+#include <esindex.h>
+#include "esindextabwidegt.h"
 
 class Handler : public QObject
 {
@@ -13,6 +15,7 @@ private:
 
 signals:
     void addConnSignal(Conn * conn);
+    void addTabSignal(Conn*conn,EsIndex* esIndex, TabType tabType);
 public:
     static Handler* getInstance();
     bool isDigitString(QString src);

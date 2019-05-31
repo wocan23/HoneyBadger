@@ -28,6 +28,7 @@ SOURCES += \
         conn.cpp \
         createconndialog.cpp \
         esindex.cpp \
+        esindextabwidegt.cpp \
         estoolbar.cpp \
         estreewidget.cpp \
         estreewidgetitem.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
         conn.h \
         createconndialog.h \
         esindex.h \
+        esindextabwidegt.h \
         estoolbar.h \
         estreewidget.h \
         estreewidgetitem.h \

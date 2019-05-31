@@ -17,35 +17,16 @@ void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
     ESItemType esItemType = esItem->getEsItemType();
     // 如果是连接且未打开获取所有索引
     if(esItemType == CONN){
-        Conn* conn = esItem->getConn();
+
         if(!esItem->isOpen()){
-            QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
-            HttpUtils * util = HttpUtils::getInstance();
-            QString res = util->Get(url);
-            EsIndex* indics= conn->getIndics();
-            conn->parseIndics(res);
-            indics= conn->getIndics();
-
-
-            for (int i = 0; i < conn->getIndexSize(); i++) {
-                EsIndex indexObj = indics[i];
-                EsTreeWidgetItem *docItem = new EsTreeWidgetItem(item);
-                docItem->setText(0,indexObj.getName());
-                docItem->setIcon(0,QIcon(":/icon/pic/index.png"));
-                docItem->setEsItemType(INDEX);
-
-                QString *aliasNamesPtr = indexObj.getAliasNames();
-                if(aliasNamesPtr != NULL){
-                    docItem->setToolTip(0,aliasNamesPtr[0]);
-                }
-                item->addChild(docItem);
-            }
+            esItem->doubleClickConn();
         }else{
             esItem->setOpen(false);
         }
 
     }else if(esItemType == INDEX){
         // 是索引
+        esItem->doubleClickIndex();
     }
 
 }
@@ -59,6 +40,4 @@ void EsTreeWidget::addConn(Conn *conn){
     connItem->setConn(conn);
     connItem->setEsItemType(CONN);
     connItem->setOpen(false);
-
-
 }
