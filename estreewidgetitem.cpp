@@ -4,11 +4,11 @@
 
 EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidget *parent) : QTreeWidgetItem(parent)
 {
-
+    conn = NULL;
 }
 EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidgetItem *parent) : QTreeWidgetItem(parent)
 {
-
+    conn = NULL;
 }
 Conn* EsTreeWidgetItem::getConn(){
     return this->conn;
@@ -32,4 +32,10 @@ ESItemType EsTreeWidgetItem::getEsItemType(){
 
 void EsTreeWidgetItem::setEsItemType(ESItemType itemType){
     this->esItemType = itemType;
+}
+
+EsTreeWidgetItem::~EsTreeWidgetItem(){
+    if (conn != NULL){
+        delete conn;
+    }
 }

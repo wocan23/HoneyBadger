@@ -90,9 +90,27 @@ void Conn::parseIndics(QString str){
         EsIndex *index = new EsIndex;
         index->setName(key);
         QJsonObject indexObj = indicesObj.value(key).toObject();
-        index->setSettings(indexObj.value("settings").toString());
-        index->setMappings(indexObj.value("mappings").toString());
-        index->setAliasNames(indexObj.value("aliases").toString());
+
+        QJsonDocument jsonDoc;
+        QJsonObject obj = indexObj.value("settings").toObject();
+        jsonDoc.setObject(obj);
+        index->setSettings(jsonDoc.toJson(QJsonDocument::Compact));
+
+        jsonDoc.setObject(indexObj.value("mappings").toObject());
+        index->setMappings(jsonDoc.toJson(QJsonDocument::Compact));
+
+        QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
+        QString * aliasStrs;
+        if(aliasJsonArr.size() >0){
+           aliasStrs = new QString[aliasJsonArr.size()];
+           for (int j = 0; j < aliasJsonArr.size();j++) {
+               aliasStrs[j] = aliasJsonArr.at(j).toString();
+           };
+        }else {
+            aliasStrs = NULL;
+        }
+
+        index->setAliasNames(aliasStrs);
         esIndices[i] = *index;
     }
     this->esIndics = esIndices;

@@ -9,8 +9,8 @@ EsIndex::EsIndex()
 void EsIndex::setName(QString name){
     this->name = name;
 }
-void EsIndex::setAliasNames(QString aliasNames){
-    this->aliasNames = this->aliasNames;
+void EsIndex::setAliasNames(QString* aliasNames){
+    this->aliasNames = aliasNames;
 }
 void EsIndex::setSettings(QString settings){
     this->settings = settings;
@@ -22,7 +22,7 @@ void EsIndex::setMappings(QString mappings){
 QString EsIndex::getName(){
     return this->name;
 }
-QString EsIndex::getAliasNames(){
+QString* EsIndex::getAliasNames(){
     return this->aliasNames;
 }
 QString EsIndex::getSettings(){

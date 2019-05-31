@@ -22,19 +22,26 @@ void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
             QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
             HttpUtils * util = HttpUtils::getInstance();
             QString res = util->Get(url);
-
-            conn->parseIndics(res);
             EsIndex* indics= conn->getIndics();
+//            if(indics == NULL){
+                conn->parseIndics(res);
+                indics= conn->getIndics();
+//            }
+
             for (int i = 0; i < conn->getIndexSize(); i++) {
                 EsIndex indexObj = indics[i];
                 EsTreeWidgetItem *docItem = new EsTreeWidgetItem(item);
                 docItem->setText(0,indexObj.getName());
                 docItem->setIcon(0,QIcon(":/icon/pic/index.png"));
                 docItem->setEsItemType(INDEX);
+//
+                QString *aliasNamesPtr = indexObj.getAliasNames();
+                if(aliasNamesPtr != NULL){
+                    docItem->setToolTip(0,aliasNamesPtr[0]);
+                }
                 item->addChild(docItem);
             }
         }else{
-
             esItem->setOpen(false);
         }
 

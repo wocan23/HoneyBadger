@@ -21,6 +21,7 @@ public:
     void setEsItemType(ESItemType itemType);
     bool isOpen();
     void setOpen(bool open);
+    ~EsTreeWidgetItem();
 signals:
 
 public slots:
