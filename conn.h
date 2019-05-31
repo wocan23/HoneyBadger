@@ -8,6 +8,7 @@ class Conn
 {
 public:
     Conn();
+    ~Conn();
     Conn(QString id,QString connName,QString userName,QString pwd,QString ip,QString port);
     QString getUserName();
     QString getPwd();

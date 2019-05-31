@@ -13,6 +13,7 @@ private:
     QString mappings;
 public:
     EsIndex();
+    ~EsIndex();
 
     void setName(QString name);
     void setAliasNames(QString *aliasNames);

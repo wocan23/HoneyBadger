@@ -2,9 +2,14 @@
 
 EsIndex::EsIndex()
 {
-
+    this->aliasNames = NULL;
 }
-
+EsIndex::~EsIndex()
+{
+    if(this->aliasNames != NULL){
+        delete [] aliasNames;
+    }
+}
 
 void EsIndex::setName(QString name){
     this->name = name;

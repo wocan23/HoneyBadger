@@ -10,7 +10,7 @@
 
 Conn::Conn()
 {
-
+    this->esIndics = NULL;
 }
 
 Conn::Conn(QString id,QString connName,QString userName,QString pwd,QString ip,QString port){
@@ -20,6 +20,7 @@ Conn::Conn(QString id,QString connName,QString userName,QString pwd,QString ip,Q
     this->pwd = pwd;
     this->ip = ip;
     this->port = port;
+    this->esIndics = NULL;
 }
 
 void Conn::setIp(QString ip){
@@ -100,17 +101,16 @@ void Conn::parseIndics(QString str){
         index->setMappings(jsonDoc.toJson(QJsonDocument::Compact));
 
         QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
-        QString * aliasStrs;
+
         if(aliasJsonArr.size() >0){
-           aliasStrs = new QString[aliasJsonArr.size()];
+            QString *aliasStrs = new QString[aliasJsonArr.size()];
            for (int j = 0; j < aliasJsonArr.size();j++) {
                aliasStrs[j] = aliasJsonArr.at(j).toString();
            };
-        }else {
-            aliasStrs = NULL;
+           index->setAliasNames(aliasStrs);
         }
 
-        index->setAliasNames(aliasStrs);
+
         esIndices[i] = *index;
     }
     this->esIndics = esIndices;
@@ -127,4 +127,10 @@ void Conn::setIndexSize(int size){
 
 int Conn::getIndexSize(){
     return this->indexSize;
+}
+
+Conn::~Conn(){
+    if(this->esIndics != NULL){
+        delete [] esIndics;
+    }
 }
