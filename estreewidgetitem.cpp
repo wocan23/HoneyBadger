@@ -14,9 +14,9 @@ EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidgetItem *parent) : QTreeWidgetItem(pa
 }
 
 EsTreeWidgetItem::~EsTreeWidgetItem(){
-    if (conn != NULL){
-        delete conn;
-    }
+//    if (conn != NULL){
+//        delete conn;
+//    }
 }
 
 void EsTreeWidgetItem::doubleClickConn(){
@@ -28,15 +28,14 @@ void EsTreeWidgetItem::doubleClickConn(){
     indics= conn->getIndics();
 
     for (int i = 0; i < conn->getIndexSize(); i++) {
-        EsIndex indexObj = indics[i];
         EsTreeWidgetItem *docItem = new EsTreeWidgetItem(this);
-        docItem->setText(0,indexObj.getName());
+        docItem->setText(0,indics[i].getName());
         docItem->setIcon(0,QIcon(":/icon/pic/index.png"));
         docItem->setEsItemType(INDEX);
         docItem->setEsIndex(&indics[i]);
         docItem->setConn(conn);
 
-        QString *aliasNamesPtr = indexObj.getAliasNames();
+        QString *aliasNamesPtr = indics[i].getAliasNames();
         if(aliasNamesPtr != NULL){
             docItem->setToolTip(0,aliasNamesPtr[0]);
         }
