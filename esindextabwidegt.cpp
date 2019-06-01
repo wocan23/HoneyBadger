@@ -45,7 +45,7 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
 
     QVBoxLayout * vLayout = new QVBoxLayout;
 
-    PageWidget * pageWidget = new PageWidget;
+    PageWidget * pageWidget = new PageWidget(21,10,1);
     QWidget * widget = new QWidget;
 
     QTextBrowser * browser = new QTextBrowser;

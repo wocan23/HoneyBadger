@@ -2,27 +2,33 @@
 #define PAGEWIDGET_H
 
 #include <QToolBar>
+#include <QLineEdit>
 
 class PageWidget : public QToolBar
 {
     Q_OBJECT
 public:
-    explicit PageWidget(QWidget *parent = nullptr);
+    explicit PageWidget(int totalNum, int pageSize = 10, int currentPage = 1);
 
 signals:
-    void to(int page);
+    void to(int page, int pageSize);
 
 public slots:
-    void toPage(int page);
+    void toPage();
     void nextPage();
     void lastPage();
     void toEndPage();
     void toStartPage();
+    void changeSize();
 
 private:
     int totalPage;
     int currentPage;
     int pageSize;
+    int totalNum;
+
+    QLineEdit * cpage;
+
 };
 
 #endif // PAGEWIDGET_H
