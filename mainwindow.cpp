@@ -7,6 +7,7 @@
 #include <QStringList>
 #include "httputils.h"
 #include "conn.h"
+#include "esindextabwidegt.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->toolBarLayout->addWidget(this->esToolBar);
 //    this->ui->mainLayout.a
     this->ui->treeWidget->setHeaderHidden(true);
+    EsIndexTabWidegt *tabWidget = new EsIndexTabWidegt;
+    this->ui->scrollArea->setWidget(tabWidget);
 
 
 

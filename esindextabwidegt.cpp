@@ -1,7 +1,13 @@
 #include "esindextabwidegt.h"
 #include "estreewidgetitem.h"
 #include "handler.h"
+#include "pagewidget.h"
+
+#include <QVBoxLayout>
 #include <QTextBrowser>
+
+
+
 
 
 #define INDEX_ICON_PATH ":/icon/pic/index.png"
@@ -36,9 +42,20 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QString indexName = esIndex->getName();
     QString tabLabel = indexName +"@"+ connName;
     QIcon icon(INDEX_ICON_PATH);
-    QTextBrowser *brower= new QTextBrowser;
-    brower->setText("表格:"+indexName);
-    this->addTab(brower,icon,tabLabel);
+
+    QVBoxLayout * vLayout = new QVBoxLayout;
+
+    PageWidget * pageWidget = new PageWidget;
+    QWidget * widget = new QWidget;
+
+    QTextBrowser * browser = new QTextBrowser;
+    browser->setText(tabLabel);
+
+    vLayout->addWidget(browser);
+    vLayout->addWidget(pageWidget);
+
+    widget->setLayout(vLayout);
+    this->addTab(widget,icon,tabLabel);
 
 }
 

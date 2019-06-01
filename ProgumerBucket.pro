@@ -28,6 +28,7 @@ SOURCES += \
         conn.cpp \
         createconndialog.cpp \
         esindex.cpp \
+        esindextablewidget.cpp \
         esindextabwidegt.cpp \
         estoolbar.cpp \
         estreewidget.cpp \
@@ -35,19 +36,22 @@ SOURCES += \
         handler.cpp \
         httputils.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        pagewidget.cpp
 
 HEADERS += \
         conn.h \
         createconndialog.h \
         esindex.h \
+        esindextablewidget.h \
         esindextabwidegt.h \
         estoolbar.h \
         estreewidget.h \
         estreewidgetitem.h \
         handler.h \
         httputils.h \
-        mainwindow.h
+        mainwindow.h \
+        pagewidget.h
 
 FORMS += \
         createconndialog.ui \

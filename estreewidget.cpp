@@ -20,8 +20,7 @@ void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
 
         if(!esItem->isOpen()){
             esItem->doubleClickConn();
-        }else{
-            esItem->setOpen(false);
+            esItem->setOpen(true);
         }
 
     }else if(esItemType == INDEX){
