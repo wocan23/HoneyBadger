@@ -2,9 +2,13 @@
 #include "estreewidgetitem.h"
 #include "handler.h"
 #include "pagewidget.h"
+#include "httputils.h"
+#include "esutils.h"
 
 #include <QVBoxLayout>
 #include <QTextBrowser>
+#include <QMap>
+#include <QDebug>
 
 
 
@@ -44,12 +48,19 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QIcon icon(INDEX_ICON_PATH);
 
     QVBoxLayout * vLayout = new QVBoxLayout;
+    // 查询数据
+    QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
+    QList<QMap<QString,QString>> list = EsUtils::query(url);
+    QMap<QString,QString> map1 = list.at(0);
+    // TODO
 
     PageWidget * pageWidget = new PageWidget(21,10,1);
     QWidget * widget = new QWidget;
 
     QTextBrowser * browser = new QTextBrowser;
     browser->setText(tabLabel);
+
+
 
     vLayout->addWidget(browser);
     vLayout->addWidget(pageWidget);

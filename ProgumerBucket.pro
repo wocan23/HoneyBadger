@@ -33,6 +33,7 @@ SOURCES += \
         estoolbar.cpp \
         estreewidget.cpp \
         estreewidgetitem.cpp \
+        esutils.cpp \
         handler.cpp \
         httputils.cpp \
         main.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
         estoolbar.h \
         estreewidget.h \
         estreewidgetitem.h \
+        esutils.h \
         handler.h \
         httputils.h \
         mainwindow.h \
