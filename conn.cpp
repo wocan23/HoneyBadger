@@ -75,60 +75,64 @@ QString Conn::getId(){
     return this->id;
 }
 
-void Conn::parseIndics(QString str){
-    QJsonParseError parseError;
-    QJsonDocument document = QJsonDocument::fromJson(str.toUtf8(),&parseError);
-    // 最外层是一个object/数组，这里是object
-    QJsonObject obj = document.object();
+void Conn::parseIndics(QString& str){
+    int size;
+    this->esIndics = EsUtils::parseIndics(str,size);
+    this->setIndexSize(size);
 
-    QJsonObject metaObj = obj.value("metadata").toObject();
-    QJsonObject indicesObj = metaObj.value("indices").toObject();
+//    QJsonParseError parseError;
+//    QJsonDocument document = QJsonDocument::fromJson(str.toUtf8(),&parseError);
+//    // 最外层是一个object/数组，这里是object
+//    QJsonObject obj = document.object();
 
-    QStringList keys = indicesObj.keys();
+//    QJsonObject metaObj = obj.value("metadata").toObject();
+//    QJsonObject indicesObj = metaObj.value("indices").toObject();
 
-    EsIndex *esIndices = new EsIndex[keys.size()];
-    this->setIndexSize(keys.size());
+//    QStringList keys = indicesObj.keys();
 
-
-    for (int i = 0; i < keys.size(); i ++) {
-        QString key = keys.at(i);
-        EsIndex *index = new EsIndex;
-        index->setName(key);
-        QJsonObject indexObj = indicesObj.value(key).toObject();
-
-        QJsonDocument jsonDoc;
-        QJsonObject obj = indexObj.value("settings").toObject();
-        jsonDoc.setObject(obj);
-        index->setSettings(jsonDoc.toJson(QJsonDocument::Compact));
-
-        QJsonObject mObj = indexObj.value("mappings").toObject();
-        QString key1 = mObj.keys().at(0);
-        QMap<QString,QString>  mappings;
-        QJsonObject pObj = mObj.value(key1).toObject().value("properties").toObject();
-        QStringList pkeys = pObj.keys();
-        for (int j = 0; j < pkeys.size(); j++) {
-            QString pkey = pkeys.at(j);
-            QString typeValue = pObj.value(pkey).toObject().value("type").toString();
-            mappings.insert(pkey,typeValue);
-        }
-
-        index->setMappings(mappings);
+//    EsIndex *esIndices = new EsIndex[keys.size()];
+//    this->setIndexSize(keys.size());
 
 
-        QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
+//    for (int i = 0; i < keys.size(); i ++) {
+//        QString key = keys.at(i);
+//        EsIndex *index = new EsIndex;
+//        index->setName(key);
+//        QJsonObject indexObj = indicesObj.value(key).toObject();
 
-        if(aliasJsonArr.size() >0){
-            QString *aliasStrs = new QString[aliasJsonArr.size()];
-           for (int j = 0; j < aliasJsonArr.size();j++) {
-               aliasStrs[j] = aliasJsonArr.at(j).toString();
-           };
-           index->setAliasNames(aliasStrs);
-        }
+//        QJsonDocument jsonDoc;
+//        QJsonObject obj = indexObj.value("settings").toObject();
+//        jsonDoc.setObject(obj);
+//        index->setSettings(jsonDoc.toJson(QJsonDocument::Compact));
+
+//        QJsonObject mObj = indexObj.value("mappings").toObject();
+//        QString key1 = mObj.keys().at(0);
+//        QMap<QString,QString>  mappings;
+//        QJsonObject pObj = mObj.value(key1).toObject().value("properties").toObject();
+//        QStringList pkeys = pObj.keys();
+//        for (int j = 0; j < pkeys.size(); j++) {
+//            QString pkey = pkeys.at(j);
+//            QString typeValue = pObj.value(pkey).toObject().value("type").toString();
+//            mappings.insert(pkey,typeValue);
+//        }
+
+//        index->setMappings(mappings);
 
 
-        esIndices[i] = *index;
-    }
-    this->esIndics = esIndices;
+//        QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
+
+//        if(aliasJsonArr.size() >0){
+//            QString *aliasStrs = new QString[aliasJsonArr.size()];
+//           for (int j = 0; j < aliasJsonArr.size();j++) {
+//               aliasStrs[j] = aliasJsonArr.at(j).toString();
+//           };
+//           index->setAliasNames(aliasStrs);
+//        }
+
+
+//        esIndices[i] = *index;
+//    }
+//    this->esIndics = esIndices;
 
 }
 

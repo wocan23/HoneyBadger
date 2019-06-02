@@ -26,7 +26,7 @@ public:
     void setIndexSize(int size);
 
 
-    void parseIndics(QString str);
+    void parseIndics(QString& str);
     EsIndex * getIndics();
 private:
     QString userName;

@@ -20,21 +20,22 @@ EsTreeWidgetItem::~EsTreeWidgetItem(){
 }
 
 void EsTreeWidgetItem::doubleClickConn(){
-    QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
+    QString ip = conn->getIp();
+    QString port = conn->getPort();
+    QString url = "http://"+ip+":"+port+"/_cluster/state";
     HttpUtils * util = HttpUtils::getInstance();
     QString res = util->Get(url);
     conn->parseIndics(res);
-    EsIndex *indics= conn->getIndics();
 
     for (int i = 0; i < conn->getIndexSize(); i++) {
         EsTreeWidgetItem *docItem = new EsTreeWidgetItem(this);
-        docItem->setText(0,indics[i].getName());
+        docItem->setText(0,conn->getIndics()[i].getName());
         docItem->setIcon(0,QIcon(":/icon/pic/index.png"));
         docItem->setEsItemType(INDEX);
-        docItem->setEsIndex(&indics[i]);
+        docItem->setEsIndex(&conn->getIndics()[i]);
         docItem->setConn(conn);
 
-        QString *aliasNamesPtr = indics[i].getAliasNames();
+        QString *aliasNamesPtr = conn->getIndics()[i].getAliasNames();
         if(aliasNamesPtr != NULL){
             docItem->setToolTip(0,aliasNamesPtr[0]);
         }

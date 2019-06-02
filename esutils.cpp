@@ -48,7 +48,7 @@ QList<QMap<QString,QString>> EsUtils::query(QString url){
 
 }
 
-EsIndex* EsUtils::parseIndics(QString str,int* isize){
+EsIndex* EsUtils::parseIndics(QString &str,int& isize){
     QJsonParseError parseError;
     QJsonDocument document = QJsonDocument::fromJson(str.toUtf8(),&parseError);
     // 最外层是一个object/数组，这里是object
@@ -61,7 +61,7 @@ EsIndex* EsUtils::parseIndics(QString str,int* isize){
 
     EsIndex *esIndices = new EsIndex[keys.size()];
     int indexSize = keys.size();
-    *isize = indexSize;
+    isize = indexSize;
 
 
     for (int i = 0; i < keys.size(); i ++) {
