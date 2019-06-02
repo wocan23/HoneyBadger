@@ -4,11 +4,14 @@
 #include "pagewidget.h"
 #include "httputils.h"
 #include "esutils.h"
+#include "esindextablewidget.h"
 
 #include <QVBoxLayout>
 #include <QTextBrowser>
 #include <QMap>
 #include <QDebug>
+#include <QTableWidgetItem>
+#include <QHeaderView>
 
 
 
@@ -51,18 +54,36 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     // 查询数据
     QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
     QList<QMap<QString,QString>> list = EsUtils::query(url);
-    QMap<QString,QString> map1 = list.at(0);
-    // TODO
 
-    PageWidget * pageWidget = new PageWidget(21,10,1);
+    int resultSize = list.size();
+
+    EsIndexTableWidget * tableWidget = new EsIndexTableWidget;
+    QMap<QString,QString> mappings = esIndex->getMappings();
+    QStringList fields = mappings.keys();
+
+    tableWidget->setHorizontalHeaderLabels(fields);
+    tableWidget->setColumnCount(fields.size());
+    tableWidget->setRowCount(list.size());
+    tableWidget->setVisible(true);
+    tableWidget->setShowGrid(true);
+    QHeaderView * header = tableWidget->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+
+    for(int i = 0 ;i < resultSize; i ++){
+        QMap<QString,QString> obj = list.at(i);
+        for (int j = 0; j < fields.size(); j++) {
+            QString field = fields.at(j);
+            QString v = obj.find(field).value();
+            QTableWidgetItem * item = new QTableWidgetItem(v);
+            tableWidget->setItem(i,j,item);
+        }
+    }
+
+    PageWidget * pageWidget = new PageWidget(list.size(),10,1);
     QWidget * widget = new QWidget;
 
-    QTextBrowser * browser = new QTextBrowser;
-    browser->setText(tabLabel);
-
-
-
-    vLayout->addWidget(browser);
+    vLayout->addWidget(tableWidget);
     vLayout->addWidget(pageWidget);
 
     widget->setLayout(vLayout);

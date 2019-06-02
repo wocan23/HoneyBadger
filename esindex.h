@@ -2,7 +2,7 @@
 #define ESINDEX_H
 
 #include <QString>
-
+#include <QMap>
 
 class EsIndex
 {
@@ -10,19 +10,19 @@ private:
     QString name;
     QString *aliasNames;
     QString settings;
-    QString mappings;
+    QMap<QString,QString> mappings;
 public:
     EsIndex();
 
     void setName(QString name);
     void setAliasNames(QString *aliasNames);
     void setSettings(QString settings);
-    void setMappings(QString mappings);
+    void setMappings(QMap<QString,QString> mappings);
 
     QString getName();
     QString* getAliasNames();
     QString getSettings();
-    QString getMappings();
+    QMap<QString,QString> getMappings();
 };
 
 #endif // ESINDEX_H

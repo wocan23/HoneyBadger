@@ -1,4 +1,7 @@
 #include "conn.h"
+#include "esindex.h"
+#include "esutils.h"
+#include "stdio.h"
 
 #include <QJsonParseError>
 #include <QJsonDocument>
@@ -7,6 +10,7 @@
 #include <QJsonValue>
 #include <QStringList>
 #include <QDebug>
+
 
 Conn::Conn()
 {
@@ -97,8 +101,19 @@ void Conn::parseIndics(QString str){
         jsonDoc.setObject(obj);
         index->setSettings(jsonDoc.toJson(QJsonDocument::Compact));
 
-        jsonDoc.setObject(indexObj.value("mappings").toObject());
-        index->setMappings(jsonDoc.toJson(QJsonDocument::Compact));
+        QJsonObject mObj = indexObj.value("mappings").toObject();
+        QString key1 = mObj.keys().at(0);
+        QMap<QString,QString>  mappings;
+        QJsonObject pObj = mObj.value(key1).toObject().value("properties").toObject();
+        QStringList pkeys = pObj.keys();
+        for (int j = 0; j < pkeys.size(); j++) {
+            QString pkey = pkeys.at(j);
+            QString typeValue = pObj.value(pkey).toObject().value("type").toString();
+            mappings.insert(pkey,typeValue);
+        }
+
+        index->setMappings(mappings);
+
 
         QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
 
@@ -114,7 +129,7 @@ void Conn::parseIndics(QString str){
         esIndices[i] = *index;
     }
     this->esIndics = esIndices;
-    qDebug()<<"end2";
+
 }
 
 EsIndex* Conn::getIndics(){

@@ -101,6 +101,7 @@ void PageWidget::toPage(){
     QString cpageStr = this->cpage->text();
     int cpageInt = cpageStr.toInt();
     if(cpageInt < 1 || cpageInt > this->totalPage){
+        this->cpage->setText(QString::number(currentPage));
         return;
     }
     this->currentPage = cpageInt;

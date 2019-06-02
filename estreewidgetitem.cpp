@@ -23,9 +23,8 @@ void EsTreeWidgetItem::doubleClickConn(){
     QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/_cluster/state";
     HttpUtils * util = HttpUtils::getInstance();
     QString res = util->Get(url);
-    EsIndex* indics= conn->getIndics();
     conn->parseIndics(res);
-    indics= conn->getIndics();
+    EsIndex *indics= conn->getIndics();
 
     for (int i = 0; i < conn->getIndexSize(); i++) {
         EsTreeWidgetItem *docItem = new EsTreeWidgetItem(this);
