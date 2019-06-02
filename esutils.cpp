@@ -29,19 +29,37 @@ QList<QMap<QString,QString>> EsUtils::query(QString url){
         QStringList  keys = obj.keys();
         for (int j = 0; j < keys.size(); j++) {
             QString key = keys.at(j);
-            QJsonValue v = obj.value(key);
-            if(v.isString()){
-                QString value = v.toString();
-                map->insert(key,value);
+            QJsonValue v = obj.value(key);          
+            if(v.isObject()){
+                QStringList sourceKeys = v.toObject().keys();
+                for( int k = 0; k < sourceKeys.size(); k ++){
+                    QString skey = keys.at(k);
+                    QJsonValue sv = obj.value(skey);
+                    map->insert(j,JsonValueToString(sv));
+                }
             }
-            if(v.isDouble()){
-                double value = v.toDouble();
-                map->insert(key,QString::number(value));
-            }
-
+            map->insert(j,JsonValueToString(v));
         }
         list->insert(i,*map);
     }
     return *list;
 
+}
+
+QString EsUtils::JsonValueToString(QJsonValue value){
+    QString rsvalue;
+    if(value.isString()){
+        rsvalue = value.toString();
+
+    }
+    if(value.isDouble()){
+        double svalue = value.toDouble();
+        rsvalue = QString::number(svalue);
+
+    }
+    if(value.toBool()){
+        bool svalue = value.toBool();
+        rsvalue = QString::number(svalue);
+    }
+    return rsvalue;
 }
