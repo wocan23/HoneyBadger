@@ -30,11 +30,11 @@ void TabContentWidget::flushData(QList<QMap<QString, QString> >& data, QStringLi
     tableWidget->setRowCount(data.size());
     tableWidget->setVisible(true);
     tableWidget->setShowGrid(true);
-    QHeaderView * header = tableWidget->horizontalHeader();
-    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+//    QHeaderView * header = tableWidget->horizontalHeader();
+//    header->setSectionResizeMode(QHeaderView::Stretch);
     tableWidget->setHorizontalHeaderLabels(fields);
 
-    for(int i = 0 ;i < pageSize; i ++){
+    for(int i = 0 ;i < data.size(); i ++){
         QMap<QString,QString> obj = data.at(i);
         for (int j = 0; j < fields.size(); j++) {
             QString field = fields.at(j);
@@ -44,8 +44,14 @@ void TabContentWidget::flushData(QList<QMap<QString, QString> >& data, QStringLi
             }else{
                v = "";
             }
-            QTableWidgetItem * item = new QTableWidgetItem(v);
-            tableWidget->setItem(i,j,item);
+            QTableWidgetItem * item = tableWidget->item(i,j);
+            if(item == NULL){
+                item = new QTableWidgetItem(v);
+                tableWidget->setItem(i,j,item);
+            }else{
+                item->setText(v);
+            }
+
         }
     }
 
