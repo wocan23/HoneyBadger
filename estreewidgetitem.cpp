@@ -14,9 +14,9 @@ EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidgetItem *parent) : QTreeWidgetItem(pa
 }
 
 EsTreeWidgetItem::~EsTreeWidgetItem(){
-//    if (conn != NULL){
-//        delete conn;
-//    }
+    if (conn != NULL && this->esItemType == CONN){
+        delete conn;
+    }
 }
 
 void EsTreeWidgetItem::doubleClickConn(){
@@ -49,6 +49,14 @@ void EsTreeWidgetItem::doubleClickIndex(){
     EsIndex* esIndex = this->getEsIndex();
     Handler* hand = Handler::getInstance();
     emit hand->addTabSignal(conn,esIndex,ADD);
+}
+
+void EsTreeWidgetItem::showConnInfo(){
+    qDebug()<<this->getConn()->getIp();
+}
+
+void EsTreeWidgetItem::showIndexInfo(){
+    qDebug()<<this->getEsIndex()->getMappings();
 }
 
 Conn* EsTreeWidgetItem::getConn(){

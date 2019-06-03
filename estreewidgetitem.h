@@ -27,6 +27,9 @@ public:
     EsIndex *getEsIndex();
     void setEsIndex(EsIndex* esIndex);
 
+    void showConnInfo();
+    void showIndexInfo();
+
 
     ~EsTreeWidgetItem();
 signals:
