@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         conn.cpp \
+        conninfodialog.cpp \
         createconndialog.cpp \
         esindex.cpp \
         esindextablewidget.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
         esutils.cpp \
         handler.cpp \
         httputils.cpp \
+        indexinfodialog.cpp \
         main.cpp \
         mainwindow.cpp \
         pagewidget.cpp \
@@ -43,6 +45,7 @@ SOURCES += \
 
 HEADERS += \
         conn.h \
+        conninfodialog.h \
         createconndialog.h \
         esindex.h \
         esindextablewidget.h \
@@ -53,12 +56,15 @@ HEADERS += \
         esutils.h \
         handler.h \
         httputils.h \
+        indexinfodialog.h \
         mainwindow.h \
         pagewidget.h \
         tabcontentwidget.h
 
 FORMS += \
+        conninfodialog.ui \
         createconndialog.ui \
+        indexinfodialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
