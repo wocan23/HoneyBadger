@@ -54,7 +54,8 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QIcon icon(INDEX_ICON_PATH);
 
     // 查询数据
-    QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
+    QString baseUrl = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
+    QString url = baseUrl +"?size=20";
     int totalSize;
     QList<QMap<QString,QString>> list = EsUtils::query(url,totalSize);
 
@@ -63,7 +64,9 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QStringList fields = mappings.keys();
 
     TabContentWidget * content = new TabContentWidget;
-    content->flushData(list,fields,totalSize);
+    content->setQueryUrl(baseUrl);
+    content->setFields(fields);
+    content->flushData(list,fields,totalSize,1,20);
 
     this->addTab(content,icon,tabLabel);
 

@@ -13,7 +13,7 @@ public:
     void changeShow(int totalNum, int pageSize = 10, int currentPage = 1);
 
 signals:
-    void to(int page, int pageSize);
+    void to( int page, int pageSize);
 
 public slots:
     void toPage();

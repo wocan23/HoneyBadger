@@ -115,12 +115,12 @@ QString EsUtils::JsonValueToString(QJsonValue value){
     }
     if(value.isDouble()){
         double svalue = value.toDouble();
-        rsvalue = QString::number(svalue);
+        rsvalue = QString::number(svalue,'f',2);
 
     }
     if(value.toBool()){
         bool svalue = value.toBool();
-        rsvalue = QString::number(svalue);
+        rsvalue = QString::number(svalue,'f',0);
     }
     return rsvalue;
 }

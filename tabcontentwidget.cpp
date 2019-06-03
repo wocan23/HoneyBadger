@@ -2,6 +2,7 @@
 
 #include "pagewidget.h"
 #include "esindextablewidget.h"
+#include "esutils.h"
 
 #include <QVBoxLayout>
 #include <QHeaderView>
@@ -20,6 +21,8 @@ TabContentWidget::TabContentWidget(QWidget *parent) : QWidget(parent)
 
         this->pageWidget = pageWidget;
         this->tableWidget = tableWidget;
+
+        connect(this->pageWidget,SIGNAL(to( int, int)),this,SLOT(to( int, int)));
 }
 
 void TabContentWidget::flushData(QList<QMap<QString, QString> >& data, QStringList& fields, int totalNum, int currentPage, int pageSize){
@@ -47,4 +50,19 @@ void TabContentWidget::flushData(QList<QMap<QString, QString> >& data, QStringLi
     }
 
     pageWidget->changeShow(totalNum,pageSize,currentPage);
+}
+
+void TabContentWidget::to(int page, int pageSize){
+    int totalSize;
+    QString url = this->queryUrl+"?size="+QString::number(pageSize)+"&from="+QString::number(pageSize*(page-1));
+    QList<QMap<QString,QString>> list = EsUtils::query(url,totalSize);
+    flushData(list,this->fields,totalSize,page,pageSize);
+}
+
+void TabContentWidget::setQueryUrl(QString &url){
+    this->queryUrl = url;
+}
+
+void TabContentWidget::setFields(QStringList &fields){
+    this->fields = fields;
 }
