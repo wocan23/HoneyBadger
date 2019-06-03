@@ -25,8 +25,10 @@
 
 EsIndexTabWidegt::EsIndexTabWidegt(QWidget *parent) : QTabWidget(parent)
 {
+    this->setTabsClosable(true);
     Handler * hand = Handler::getInstance();
     connect(hand,SIGNAL(addTabSignal(Conn*,EsIndex*,TabType)),this,SLOT(addTabPage(Conn*,EsIndex*, TabType)));
+    connect(this,SIGNAL(tabCloseRequested(int)),this,SLOT(deleteTabPage(int)));
 }
 
 void EsIndexTabWidegt::addTabPage(Conn *conn, EsIndex* esIndex, TabType tabType){
@@ -40,11 +42,12 @@ void EsIndexTabWidegt::addTabPage(Conn *conn, EsIndex* esIndex, TabType tabType)
     }
 }
 
-void EsIndexTabWidegt::deleteTabPage(Conn *conn, EsIndex* esIndex){
-    QString connName = conn->getConnName();
-    QString indexName = esIndex->getName();
-    QString tabLabel = indexName +"@"+ connName;
-    QIcon icon(INDEX_ICON_PATH);
+void EsIndexTabWidegt::deleteTabPage(int index){
+    QWidget * pWidget = this->widget(index);
+    this->removeTab(index);
+    if(pWidget != NULL){
+        delete pWidget;
+    }
 }
 
 void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
@@ -69,6 +72,7 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     content->flushData(list,fields,totalSize,1,20);
 
     this->addTab(content,icon,tabLabel);
+    this->setCurrentWidget(content);
 
 }
 

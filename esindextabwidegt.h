@@ -23,7 +23,7 @@ signals:
 
 public slots:
     void addTabPage(Conn *conn, EsIndex* esIndex, TabType tabType);
-    void deleteTabPage(Conn *conn, EsIndex* esIndex);
+    void deleteTabPage(int index);
 };
 
 #endif // ESINDEXTABWIDEGT_H
