@@ -38,7 +38,8 @@ SOURCES += \
         httputils.cpp \
         main.cpp \
         mainwindow.cpp \
-        pagewidget.cpp
+        pagewidget.cpp \
+        tabcontentwidget.cpp
 
 HEADERS += \
         conn.h \
@@ -53,7 +54,8 @@ HEADERS += \
         handler.h \
         httputils.h \
         mainwindow.h \
-        pagewidget.h
+        pagewidget.h \
+        tabcontentwidget.h
 
 FORMS += \
         createconndialog.ui \

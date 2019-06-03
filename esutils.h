@@ -9,7 +9,7 @@ class EsUtils
 public:
     EsUtils();
 
-    static QList<QMap<QString,QString>> query(QString url);
+    static QList<QMap<QString,QString>> query(QString url,int& size);
     static QString JsonValueToString(QJsonValue value);
     static EsIndex* parseIndics(QString &str,int& size);
 };

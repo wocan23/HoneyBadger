@@ -2,6 +2,7 @@
 #define ESINDEXTABLEWIDGET_H
 
 #include <QTableWidget>
+#include <QStringList>
 
 class EsIndexTableWidget : public QTableWidget
 {
@@ -12,6 +13,9 @@ public:
 signals:
 
 public slots:
+
+private:
+    QStringList titles;
 };
 
 #endif // ESINDEXTABLEWIDGET_H

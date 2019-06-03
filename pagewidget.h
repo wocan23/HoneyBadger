@@ -3,12 +3,14 @@
 
 #include <QToolBar>
 #include <QLineEdit>
+#include <QLabel>
 
 class PageWidget : public QToolBar
 {
     Q_OBJECT
 public:
     explicit PageWidget(int totalNum, int pageSize = 10, int currentPage = 1);
+    void changeShow(int totalNum, int pageSize = 10, int currentPage = 1);
 
 signals:
     void to(int page, int pageSize);
@@ -28,6 +30,7 @@ private:
     int totalNum;
 
     QLineEdit * cpage;
+    QLabel *label;
 
 };
 

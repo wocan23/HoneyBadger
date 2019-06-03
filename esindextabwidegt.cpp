@@ -5,6 +5,7 @@
 #include "httputils.h"
 #include "esutils.h"
 #include "esindextablewidget.h"
+#include "tabcontentwidget.h"
 
 #include <QVBoxLayout>
 #include <QTextBrowser>
@@ -12,6 +13,8 @@
 #include <QDebug>
 #include <QTableWidgetItem>
 #include <QHeaderView>
+#include <QStringLiteral>
+
 
 
 
@@ -50,44 +53,19 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QString tabLabel = indexName +"@"+ connName;
     QIcon icon(INDEX_ICON_PATH);
 
-    QVBoxLayout * vLayout = new QVBoxLayout;
     // 查询数据
     QString url = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
-    QList<QMap<QString,QString>> list = EsUtils::query(url);
+    int totalSize;
+    QList<QMap<QString,QString>> list = EsUtils::query(url,totalSize);
 
-    int resultSize = list.size();
 
-    EsIndexTableWidget * tableWidget = new EsIndexTableWidget;
     QMap<QString,QString> mappings = esIndex->getMappings();
     QStringList fields = mappings.keys();
 
-    tableWidget->setHorizontalHeaderLabels(fields);
-    tableWidget->setColumnCount(fields.size());
-    tableWidget->setRowCount(list.size());
-    tableWidget->setVisible(true);
-    tableWidget->setShowGrid(true);
-    QHeaderView * header = tableWidget->horizontalHeader();
-    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    TabContentWidget * content = new TabContentWidget;
+    content->flushData(list,fields,totalSize);
 
-
-    for(int i = 0 ;i < resultSize; i ++){
-        QMap<QString,QString> obj = list.at(i);
-        for (int j = 0; j < fields.size(); j++) {
-            QString field = fields.at(j);
-            QString v = obj.find(field).value();
-            QTableWidgetItem * item = new QTableWidgetItem(v);
-            tableWidget->setItem(i,j,item);
-        }
-    }
-
-    PageWidget * pageWidget = new PageWidget(list.size(),10,1);
-    QWidget * widget = new QWidget;
-
-    vLayout->addWidget(tableWidget);
-    vLayout->addWidget(pageWidget);
-
-    widget->setLayout(vLayout);
-    this->addTab(widget,icon,tabLabel);
+    this->addTab(content,icon,tabLabel);
 
 }
 

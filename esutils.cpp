@@ -14,13 +14,14 @@ EsUtils::EsUtils()
 
 }
 
-QList<QMap<QString,QString>> EsUtils::query(QString url){
+QList<QMap<QString,QString>> EsUtils::query(QString url,int& totalSize){
     QString res = HttpUtils::Get(url);
     QJsonParseError parseError;
     QJsonDocument document = QJsonDocument::fromJson(res.toUtf8(),&parseError);
     // 最外层是一个object/数组，这里是object
     QJsonObject obj = document.object();
     QJsonObject hitObj = obj.value("hits").toObject();
+    totalSize = hitObj.value("total").toInt();
     QJsonArray hitArr = hitObj.value("hits").toArray();
     int size = hitArr.size();
     QList<QMap<QString,QString>> *list = new QList<QMap<QString,QString>>;
@@ -76,18 +77,19 @@ EsIndex* EsUtils::parseIndics(QString &str,int& isize){
         index->setSettings(jsonDoc.toJson(QJsonDocument::Compact));
 
         QJsonObject mObj = indexObj.value("mappings").toObject();
-        QString key1 = mObj.keys().at(0);
-        QMap<QString,QString>  mappings;
-        QJsonObject pObj = mObj.value(key1).toObject().value("properties").toObject();
-        QStringList pkeys = pObj.keys();
-        for (int j = 0; j < pkeys.size(); j++) {
-            QString pkey = pkeys.at(j);
-            QString typeValue = pObj.value(pkey).toObject().value("type").toString();
-            mappings.insert(pkey,typeValue);
+        if(mObj.keys().size() != 0){
+            QString key1 = mObj.keys().at(0);
+            QMap<QString,QString>  mappings;
+            QJsonObject pObj = mObj.value(key1).toObject().value("properties").toObject();
+            QStringList pkeys = pObj.keys();
+            for (int j = 0; j < pkeys.size(); j++) {
+                QString pkey = pkeys.at(j);
+                QString typeValue = pObj.value(pkey).toObject().value("type").toString();
+                mappings.insert(pkey,typeValue);
+            }
+
+            index->setMappings(mappings);
         }
-
-        index->setMappings(mappings);
-
 
         QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
 

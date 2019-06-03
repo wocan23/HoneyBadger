@@ -28,6 +28,7 @@ PageWidget::PageWidget(int totalNum, int pageSize, int currentPage){
     QLineEdit * cpage = new QLineEdit;
     this->cpage = cpage;
     QLabel *label = new QLabel;
+    this->label = label;
     QString labelStr = "总"+QString::number(this->totalNum)+"条";
     label->setText(labelStr);
 
@@ -111,4 +112,20 @@ void PageWidget::toPage(){
 
 void PageWidget::changeSize(){
 
+}
+
+void PageWidget::changeShow(int totalNum, int pageSize, int currentPage){
+    this->totalNum = totalNum;
+    this->pageSize = pageSize;
+     this->totalPage = (this->totalNum + this->pageSize -1)/this->pageSize;
+    if(currentPage > this->totalPage){
+        this->currentPage = this->totalPage;
+    }else if(currentPage < 1){
+        this->currentPage = 1;
+    }else{
+        this->currentPage = currentPage;
+    }
+    this->cpage->setText(QString::number(this->currentPage));
+    QString labelStr = "总"+QString::number(this->totalNum)+"条";
+    this->label->setText(labelStr);
 }
