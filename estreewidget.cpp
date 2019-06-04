@@ -145,4 +145,8 @@ void EsTreeWidget::editConn(){
 
 void EsTreeWidget::editFinishConn(QTreeWidgetItem *item, int column){
     this->closePersistentEditor(item,column);
+    EsTreeWidgetItem * esItem = (EsTreeWidgetItem*)item;
+    if(esItem->getConn() != NULL){
+        esItem->getConn()->setConnName(item->text(column));
+    }
 }
