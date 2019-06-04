@@ -39,7 +39,14 @@ void EsTreeWidgetItem::doubleClickConn(){
 
         QString *aliasNamesPtr = conn->getIndics()[i].getAliasNames();
         if(aliasNamesPtr != NULL){
-            docItem->setToolTip(0,aliasNamesPtr[0]);
+            int aliasSize = sizeof(aliasNamesPtr)/sizeof (aliasNamesPtr[0]);
+            QStringList aliasList;
+            for(int j = 0; j < aliasSize; j++){
+                aliasList<<aliasNamesPtr[j];
+            }
+            docItem->setToolTip(0,aliasList.join(","));
+            QColor color("green");
+            docItem->setTextColor(0,color);
         }
         this->addChild(docItem);
     }

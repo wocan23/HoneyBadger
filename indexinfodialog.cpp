@@ -74,6 +74,7 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
     vlayout->addLayout(mappingssLayout);
 
     QScrollArea * scrollArea = new QScrollArea;
+    vlayout->setContentsMargins(10,10,10,10);
     scrollArea->setLayout(vlayout);
     layout->addWidget(scrollArea);
     this->setLayout(layout);

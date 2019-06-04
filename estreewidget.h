@@ -28,6 +28,15 @@ public slots:
    void showConnInfo();
    void showIndexInfo();
 
+   void editIndex();
+   void addAlias();
+   void removeAlias();
+   void editAlias();
+
+   void closeConn();
+   void editConn();
+   void editFinishConn(QTreeWidgetItem *item, int column);
+
 private:
    QMenu * indexMenu;
    QMenu * connMenu;
