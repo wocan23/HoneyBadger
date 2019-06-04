@@ -61,7 +61,8 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     connect(connInfo, SIGNAL(triggered(bool)), this, SLOT(showConnInfo())); //右键动作槽
     connect(editConn, SIGNAL(triggered(bool)), this, SLOT(editConn())); //右键动作槽
     connect(closeConn, SIGNAL(triggered(bool)), this, SLOT(closeConn())); //右键动作槽
-    connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int )),this,SLOT(editFinishConn(QTreeWidgetItem *, int)));
+    connect(editIndex, SIGNAL(triggered(bool)), this, SLOT(editIndex())); //右键动作槽
+    connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int )),this,SLOT(editFinish(QTreeWidgetItem *, int)));
 
 }
 
@@ -121,7 +122,7 @@ void EsTreeWidget::showIndexInfo(){
 }
 
 void EsTreeWidget::editIndex(){
-
+    this->openPersistentEditor(this->currentItem,0);
 }
 
 void EsTreeWidget::addAlias(){
@@ -148,10 +149,19 @@ void EsTreeWidget::editConn(){
     this->openPersistentEditor(this->currentItem,0);
 }
 
-void EsTreeWidget::editFinishConn(QTreeWidgetItem *item, int column){
-    this->closePersistentEditor(item,column);
+void EsTreeWidget::editFinish(QTreeWidgetItem *item, int column){
     EsTreeWidgetItem * esItem = (EsTreeWidgetItem*)item;
-    if(esItem->getConn() != NULL){
-        esItem->getConn()->setConnName(item->text(column));
+    this->closePersistentEditor(item,column);
+    ESItemType type = esItem->getEsItemType();
+    switch (type) {
+    case CONN:
+        if(esItem->getConn() != NULL){
+            esItem->getConn()->setConnName(item->text(column));
+        }
+        break;
+    case INDEX:
+        QString lastName = esItem->getEsIndex()->getName();
+        //QString newName = esItem->text(column);
+        break;
     }
 }

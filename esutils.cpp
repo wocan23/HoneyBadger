@@ -124,3 +124,19 @@ QString EsUtils::JsonValueToString(QJsonValue value){
     }
     return rsvalue;
 }
+
+bool EsUtils::changeName(Conn *conn, EsIndex *esIndex, QString &newName){
+
+}
+
+bool EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QString &newAlias){
+
+}
+
+bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias){
+
+}
+
+bool EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
+
+}
