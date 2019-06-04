@@ -4,6 +4,7 @@
 #include "esindex.h"
 
 #include <QDialog>
+#include <QHBoxLayout>
 
 namespace Ui {
 class IndexInfoDialog;
@@ -19,6 +20,7 @@ public:
     ~IndexInfoDialog();
 
     void flushIndexInfo(EsIndex* esIndex);
+
 private:
     Ui::IndexInfoDialog *ui;
 };

@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        commonutils.cpp \
         conn.cpp \
         conninfodialog.cpp \
         createconndialog.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
         tabcontentwidget.cpp
 
 HEADERS += \
+        commonutils.h \
         conn.h \
         conninfodialog.h \
         createconndialog.h \

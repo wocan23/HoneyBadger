@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLayoutItem>
+#include <QSizePolicy>
 
 ConnInfoDialog::ConnInfoDialog(QWidget *parent) :
     QDialog(parent),
@@ -33,6 +34,16 @@ void ConnInfoDialog::flushConnInfo(Conn *conn){
     QLabel *portL= new QLabel("port:");
     QLabel *userL= new QLabel("user:");
     QLabel *pwdL= new QLabel("pwd:");
+
+    ip->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    port->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    user->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    pwd->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+
+    ipL->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    portL->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    userL->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    pwdL->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
 
     ipL->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
     portL->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
