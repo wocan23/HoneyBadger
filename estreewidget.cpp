@@ -51,15 +51,16 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     editConn->setText("修改连接名称");
     connMenu ->addAction(editConn);
 
-    QAction * coloseConn = new QAction(this);
-    coloseConn->setText("关闭连接");
-    connMenu ->addAction(coloseConn);
+    QAction * closeConn = new QAction(this);
+    closeConn->setText("关闭连接");
+    connMenu ->addAction(closeConn);
 
     this->connMenu = connMenu;
 
     connect(indexInfo, SIGNAL(triggered(bool)), this, SLOT(showIndexInfo())); //右键动作槽
     connect(connInfo, SIGNAL(triggered(bool)), this, SLOT(showConnInfo())); //右键动作槽
     connect(editConn, SIGNAL(triggered(bool)), this, SLOT(editConn())); //右键动作槽
+    connect(closeConn, SIGNAL(triggered(bool)), this, SLOT(closeConn())); //右键动作槽
     connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int )),this,SLOT(editFinishConn(QTreeWidgetItem *, int)));
 
 }
@@ -136,7 +137,11 @@ void EsTreeWidget::editAlias(){
 }
 
 void EsTreeWidget::closeConn(){
-
+    int count = this->currentItem->childCount();
+    for(int i = count-1; i >= 0; i--){
+        this->currentItem->removeChild(this->currentItem->child(i));
+    }
+    this->currentItem->setOpen(false);
 }
 
 void EsTreeWidget::editConn(){
