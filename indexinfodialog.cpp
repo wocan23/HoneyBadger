@@ -65,6 +65,10 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
     info.append(mappingsL+":"+ mappingsStr+"\n");
 
     QLabel *label = new QLabel(info);
+    QFont ft;
+    ft.setPointSize(13);
+    ft.setWeight(3);
+    label->setFont(ft);
     QScrollArea * scrollArea = new QScrollArea;
     scrollArea->setWidget(label);
 
