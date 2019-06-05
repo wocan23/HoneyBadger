@@ -149,7 +149,6 @@ bool EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QStri
                   ] \
                 }");
     QString res = HttpUtils::Post(url,param);
-    qDebug()<<res;
     QJsonParseError jsonerror;
     QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
     QJsonObject obj = doc.object();
@@ -176,7 +175,6 @@ bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
                   ] \
                 }");
     QString res = HttpUtils::Post(url,param);
-    qDebug()<<res;
     QJsonParseError jsonerror;
     QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
     QJsonObject obj = doc.object();
@@ -203,7 +201,6 @@ bool EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
                   ] \
                 }");
     QString res = HttpUtils::Post(url,param);
-    qDebug()<<res;
     QJsonParseError jsonerror;
     QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
     QJsonObject obj = doc.object();

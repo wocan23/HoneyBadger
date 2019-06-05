@@ -32,6 +32,7 @@ SOURCES += \
         esindex.cpp \
         esindextablewidget.cpp \
         esindextabwidegt.cpp \
+        esquerywidget.cpp \
         estoolbar.cpp \
         estreewidget.cpp \
         estreewidgetitem.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
         esindex.h \
         esindextablewidget.h \
         esindextabwidegt.h \
+        esquerywidget.h \
         estoolbar.h \
         estreewidget.h \
         estreewidgetitem.h \

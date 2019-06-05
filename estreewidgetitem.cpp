@@ -59,7 +59,6 @@ void EsTreeWidgetItem::doubleClickIndex(){
 }
 
 void EsTreeWidgetItem::showConnInfo(){
-    qDebug()<<this->getConn()->getIp();
     ConnInfoDialog * dialog = new ConnInfoDialog;
     dialog->setWindowTitle("连接信息");
     dialog->flushConnInfo(this->conn);
@@ -67,7 +66,6 @@ void EsTreeWidgetItem::showConnInfo(){
 }
 
 void EsTreeWidgetItem::showIndexInfo(){
-    qDebug()<<this->getEsIndex()->getMappings();
     IndexInfoDialog * dialog = new IndexInfoDialog;
     dialog->setWindowTitle("索引信息");
     dialog->flushIndexInfo(this->getEsIndex());

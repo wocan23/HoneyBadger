@@ -17,7 +17,6 @@ QHBoxLayout* CommonUtils::createShowLayout(QString &key, QString& value, int wid
     keyL->setFixedWidth(100);
 
     QString newValue = CommonUtils::toJsonFormat(value);
-    qDebug()<<newValue;
 
     QLabel *valueL = new QLabel(newValue);
 

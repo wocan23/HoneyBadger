@@ -98,7 +98,6 @@ void PageWidget::nextPage(){
 }
 
 void PageWidget::toPage(){
-    qDebug()<<"toPage";
     QString cpageStr = this->cpage->text();
     int cpageInt = cpageStr.toInt();
     if(cpageInt < 1 || cpageInt > this->totalPage){

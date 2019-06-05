@@ -95,7 +95,6 @@ void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
 
 
 void EsTreeWidget::addConn(Conn *conn){
-    qDebug()<<"添加连接";
     EsTreeWidgetItem *connItem = new EsTreeWidgetItem(this);
     connItem->setText(0,conn->getConnName());
     connItem->setIcon(0,QIcon(":/icon/pic/conn.png"));
@@ -190,7 +189,6 @@ void EsTreeWidget::removeAlias(){
     if(ack){
         aliasNames.removeOne(selAlias);
         index->setAliasNames(aliasNames);
-        qDebug()<<index->getAliasNames();
         QMessageBox::information(this,"提示","删除成功","确定");
         if(aliasNames.size() == 0){
             // 去除颜色
