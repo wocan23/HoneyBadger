@@ -42,9 +42,9 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     indexMenu ->addAction(removeAlias);
     this->removeAliasActon= removeAlias;
 
-    QAction * editAlias = new QAction(this);
-    editAlias->setText("修改别名");
-    indexMenu ->addAction(editAlias);
+//    QAction * editAlias = new QAction(this);
+//    editAlias->setText("修改别名");
+//    indexMenu ->addAction(editAlias);
 
     this->indexMenu = indexMenu;
 
