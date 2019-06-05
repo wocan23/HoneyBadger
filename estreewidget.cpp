@@ -40,6 +40,7 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     QAction * removeAlias = new QAction(this);
     removeAlias->setText("删除别名");
     indexMenu ->addAction(removeAlias);
+    this->removeAliasActon= removeAlias;
 
     QAction * editAlias = new QAction(this);
     editAlias->setText("修改别名");
@@ -70,6 +71,7 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     connect(closeConn, SIGNAL(triggered(bool)), this, SLOT(closeConn())); //右键动作槽
     connect(editIndex, SIGNAL(triggered(bool)), this, SLOT(editIndex())); //右键动作槽
     connect(addAlias, SIGNAL(triggered(bool)), this, SLOT(addAlias())); //右键动作槽
+    connect(removeAlias, SIGNAL(triggered(bool)), this, SLOT(removeAlias())); //右键动作槽
     connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int )),this,SLOT(editFinish(QTreeWidgetItem *, int)));
 
 }
@@ -112,6 +114,11 @@ void EsTreeWidget::contextMenuEvent(QContextMenuEvent *event){
            this->currentItem = esItem;
            ESItemType esItemType = esItem->getEsItemType();
            if(esItemType == INDEX){
+               if(esItem->getEsIndex()->getAliasNames().size() == 0){
+                   this->removeAliasActon->setEnabled(false);
+               }else{
+                    this->removeAliasActon->setEnabled(true);
+               }
                this->indexMenu->exec(QCursor::pos());
            }else if (esItemType == CONN) {
                 this->connMenu->exec(QCursor::pos());
@@ -136,18 +143,10 @@ void EsTreeWidget::editIndex(){
 void EsTreeWidget::addAlias(){
     Conn * conn = this->currentItem->getConn();
     EsIndex * index = this->currentItem->getEsIndex();
-    QString aliasName = "atesffs";
     bool isOK;
-    QString *aliasNamesPtr = index->getAliasNames();
-    QString oldAlias("");
-    if(aliasNamesPtr != NULL){
-        int aliasSize = sizeof(*aliasNamesPtr)/sizeof (aliasNamesPtr[0]);
-        QStringList aliasList;
-        for(int j = 0; j < aliasSize; j++){
-            aliasList<<aliasNamesPtr[j];
-        }
-        oldAlias = aliasList.join(",");
-    }
+    QStringList aliasNames = index->getAliasNames();
+    QString oldAlias = aliasNames.join(",");
+
     QInputDialog * inputDialog = new QInputDialog(this);
     inputDialog->setTextValue("新别名");
     inputDialog->setLabelText("原别名:"+oldAlias);
@@ -160,6 +159,8 @@ void EsTreeWidget::addAlias(){
     QString newAlias = inputDialog->textValue();
     bool ack = EsUtils::addAlias(conn,index,newAlias);
     if(ack){
+        QStringList newAliases = index->getAliasNames() << newAlias;
+        index->setAliasNames(newAliases);
         QMessageBox::information(this,"提示","添加成功","确定");
         QColor color("green");
         this->currentItem->setTextColor(0,color);
@@ -169,7 +170,38 @@ void EsTreeWidget::addAlias(){
 }
 
 void EsTreeWidget::removeAlias(){
+    Conn * conn = this->currentItem->getConn();
+    EsIndex * index = this->currentItem->getEsIndex();
+    bool isOK;
+    QStringList aliasNames = index->getAliasNames();
+    QString oldAlias = aliasNames.join(",");
 
+    QInputDialog * inputDialog = new QInputDialog(this);
+    inputDialog->setLabelText("选择要删除的别名");
+    inputDialog->setComboBoxItems(aliasNames);
+    inputDialog->setOkButtonText("确定");
+    inputDialog->setCancelButtonText("取消");
+    int res = inputDialog->exec();
+    if(res == 0){
+        return;
+    }
+    // 获取选择的内容
+    QString selAlias = inputDialog->textValue();
+    bool ack = EsUtils::removeAlias(conn,index,selAlias);
+    if(ack){
+        aliasNames.removeOne(selAlias);
+        index->setAliasNames(aliasNames);
+        qDebug()<<index->getAliasNames();
+        QMessageBox::information(this,"提示","删除成功","确定");
+        if(aliasNames.size() == 0){
+            // 去除颜色
+            QColor color("black");
+            this->currentItem->setTextColor(0,color);
+        }
+
+    }else{
+        QMessageBox::information(this,"提示","删除失败","确定");
+    }
 }
 
 void EsTreeWidget::editAlias(){

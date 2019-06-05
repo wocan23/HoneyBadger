@@ -3,6 +3,7 @@
 
 #include <QHBoxLayout>
 #include <QWidget>
+#include <QInputDialog>
 
 class CommonUtils
 {

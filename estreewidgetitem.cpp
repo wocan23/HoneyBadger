@@ -39,14 +39,10 @@ void EsTreeWidgetItem::doubleClickConn(){
         docItem->setEsIndex(&conn->getIndics()[i]);
         docItem->setConn(conn);
 
-        QString *aliasNamesPtr = conn->getIndics()[i].getAliasNames();
-        if(aliasNamesPtr != NULL){
-            int aliasSize = sizeof(*aliasNamesPtr)/sizeof (aliasNamesPtr[0]);
-            QStringList aliasList;
-            for(int j = 0; j < aliasSize; j++){
-                aliasList<<aliasNamesPtr[j];
-            }
-            docItem->setToolTip(0,aliasList.join(","));
+        QStringList aliasNames = conn->getIndics()[i].getAliasNames();
+        if(aliasNames.size()!=0){
+
+            docItem->setToolTip(0,aliasNames.join(","));
             QColor color("green");
             docItem->setTextColor(0,color);
         }

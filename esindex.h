@@ -8,19 +8,19 @@ class EsIndex
 {
 private:
     QString name;
-    QString *aliasNames;
+    QStringList aliasNames;
     QString settings;
     QMap<QString,QString> mappings;
 public:
     EsIndex();
 
     void setName(QString name);
-    void setAliasNames(QString *aliasNames);
+    void setAliasNames(QStringList aliasNames);
     void setSettings(QString settings);
     void setMappings(QMap<QString,QString> mappings);
 
     QString getName();
-    QString* getAliasNames();
+    QStringList getAliasNames();
     QString getSettings();
     QMap<QString,QString> getMappings();
 };

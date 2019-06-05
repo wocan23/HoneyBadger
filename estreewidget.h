@@ -42,6 +42,7 @@ private:
    QMenu * connMenu;
 
    EsTreeWidgetItem * currentItem;
+   QAction * removeAliasActon;
 
 };
 

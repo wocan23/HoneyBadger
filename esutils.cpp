@@ -94,11 +94,11 @@ EsIndex* EsUtils::parseIndics(QString &str,int& isize){
         QJsonArray aliasJsonArr = indexObj.value("aliases").toArray();
 
         if(aliasJsonArr.size() >0){
-            QString *aliasStrs = new QString[aliasJsonArr.size()];
+            QStringList alias;
            for (int j = 0; j < aliasJsonArr.size();j++) {
-               aliasStrs[j] = aliasJsonArr.at(j).toString();
+               alias << aliasJsonArr.at(j).toString();
            };
-           index->setAliasNames(aliasStrs);
+           index->setAliasNames(alias);
         }
 
 
@@ -130,11 +130,61 @@ bool EsUtils::changeName(Conn *conn, EsIndex *esIndex, QString &newName){
 }
 
 bool EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QString &newAlias){
-
+    QString indexName =  esIndex->getName();
+    QString url ;
+    getBaseUrl(url,conn);
+    url = url + "_aliases";
+    QString param("{ \
+                  \"actions\": [ \
+                    { \
+                      \"remove\": { \
+                        \"index\": \""+indexName+"\", \
+                        \"alias\": \""+oldAlias+"\" \
+                      } ,\
+                      \"add\": { \
+                        \"index\": \""+indexName+"\", \
+                        \"alias\": \""+newAlias+"\" \
+                      } \
+                    } \
+                  ] \
+                }");
+    QString res = HttpUtils::Post(url,param);
+    qDebug()<<res;
+    QJsonParseError jsonerror;
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
+    QJsonObject obj = doc.object();
+    QJsonValue ack = obj.value("acknowledged");
+    if(ack.isNull()){
+        return false;
+    }
+    return true;
 }
 
-bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias){
-
+bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
+    QString indexName =  esIndex->getName();
+    QString url ;
+    getBaseUrl(url,conn);
+    url = url + "_aliases";
+    QString param("{ \
+                  \"actions\": [ \
+                    { \
+                      \"remove\": { \
+                        \"index\": \""+indexName+"\", \
+                        \"alias\": \""+aliasName+"\" \
+                      } \
+                    } \
+                  ] \
+                }");
+    QString res = HttpUtils::Post(url,param);
+    qDebug()<<res;
+    QJsonParseError jsonerror;
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
+    QJsonObject obj = doc.object();
+    QJsonValue ack = obj.value("acknowledged");
+    if(ack.isNull()){
+        return false;
+    }
+    return true;
 }
 
 bool EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){

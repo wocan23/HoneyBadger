@@ -2,13 +2,12 @@
 
 EsIndex::EsIndex()
 {
-    this->aliasNames = NULL;
 }
 
 void EsIndex::setName(QString name){
     this->name = name;
 }
-void EsIndex::setAliasNames(QString* aliasNames){
+void EsIndex::setAliasNames(QStringList aliasNames){
     this->aliasNames = aliasNames;
 }
 void EsIndex::setSettings(QString settings){
@@ -21,7 +20,7 @@ void EsIndex::setMappings(QMap<QString,QString> mappings){
 QString EsIndex::getName(){
     return this->name;
 }
-QString* EsIndex::getAliasNames(){
+QStringList EsIndex::getAliasNames(){
     return this->aliasNames;
 }
 QString EsIndex::getSettings(){

@@ -26,7 +26,7 @@ IndexInfoDialog::IndexInfoDialog(EsIndex * esIndex){
 void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
     QString indexName = esIndex->getName();
     QString settings = esIndex->getSettings();
-    QString *aliasNames = esIndex->getAliasNames();
+    QStringList aliasNames = esIndex->getAliasNames();
     QMap<QString,QString> mappings = esIndex->getMappings();
 
     QVBoxLayout * layout = new QVBoxLayout;
@@ -37,17 +37,8 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
     QString settingsNameL = "settings";
     QString mappingsL = "mappings";
     QString aliasNameStr;
-    if(aliasNames != NULL){
-
-        int size = sizeof(aliasNames)/sizeof(aliasNames[0]);
-        QStringList aliasNameList;
-        if(size !=  0){
-            for(long j = 0; j < size; j ++){
-                QString aliasName = aliasNames[j];
-                aliasNameList<<aliasName;
-            }
-            aliasNameStr = aliasNameList.join(",");
-        }
+    if(aliasNames.size() != 0){
+        aliasNameStr = aliasNames.join(",");
     }else{
         aliasNameStr = "";
     }
