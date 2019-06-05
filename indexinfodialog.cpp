@@ -10,6 +10,10 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QDebug>
+#include <QBoxLayout>
+#include <QJsonObject>
+#include <QJsonDocument>
+
 
 
 IndexInfoDialog::IndexInfoDialog(QWidget *parent) :
@@ -29,9 +33,6 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
     QStringList aliasNames = esIndex->getAliasNames();
     QMap<QString,QString> mappings = esIndex->getMappings();
 
-    QVBoxLayout * layout = new QVBoxLayout;
-    QVBoxLayout * vlayout = new QVBoxLayout;
-
     QString indexNameL = "索引名称";
     QString aliasNameL = "索引别名";
     QString settingsNameL = "settings";
@@ -43,33 +44,31 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
         aliasNameStr = "";
     }
 
-    QSize dialogSize = this->size();
-    int width = dialogSize.width();
 
-    QHBoxLayout * indexLayout = CommonUtils::createShowLayout(indexNameL,indexName,width/3*2);
-    QHBoxLayout * aliasLayout = CommonUtils::createShowLayout(aliasNameL,aliasNameStr,width/3*2);
-    QHBoxLayout * settingsLayout = CommonUtils::createShowLayout(settingsNameL,settings,width/3*2);
-
-    vlayout->addLayout(indexLayout);
-    vlayout->addLayout(aliasLayout);
-    vlayout->addLayout(settingsLayout);
-
-    QVBoxLayout * vmLayout = new QVBoxLayout;
-
+    QJsonObject jsonObj;
     QStringList keys = mappings.keys();
     for (int i = 0; i < mappings.size(); i++) {
         QString key = keys.at(i);
         QString value = mappings.value(key);
-        QHBoxLayout * mLayout = CommonUtils::createShowLayout(key,value,width/3*2);
-        vmLayout->addLayout(mLayout);
+        jsonObj.insert(key,value);
     }
-    QHBoxLayout * mappingssLayout = CommonUtils::createShowLayout(mappingsL, vmLayout);
+    QJsonDocument document;
+    document.setObject(jsonObj);
+    QByteArray byteArray = document.toJson(QJsonDocument::Compact);
+    QString jsonStr(byteArray);
+    QString mappingsStr = CommonUtils::toJsonFormat(jsonStr);
 
-    vlayout->addLayout(mappingssLayout);
+    QString info;
+    info.append(indexNameL+":"+indexName+"\n");
+    info.append(aliasNameL+":"+aliasNameStr+"\n");
+    info.append(settingsNameL+":"+CommonUtils::toJsonFormat(settings)+"\n");
+    info.append(mappingsL+":"+ mappingsStr+"\n");
 
+    QLabel *label = new QLabel(info);
     QScrollArea * scrollArea = new QScrollArea;
-    vlayout->setContentsMargins(10,10,10,10);
-    scrollArea->setLayout(vlayout);
+    scrollArea->setWidget(label);
+
+    QBoxLayout * layout = new QBoxLayout(QBoxLayout::TopToBottom);
     layout->addWidget(scrollArea);
     this->setLayout(layout);
 

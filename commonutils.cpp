@@ -16,17 +16,11 @@ QHBoxLayout* CommonUtils::createShowLayout(QString &key, QString& value, int wid
     QLabel *keyL = new QLabel(key+":");
     keyL->setFixedWidth(100);
 
-    // 获取行数
     QString newValue = CommonUtils::toJsonFormat(value);
     qDebug()<<newValue;
 
     QLabel *valueL = new QLabel(newValue);
-//    valueL->adjustSize();
-//    valueL->setGeometry(QRect(328, 240, 329, 27*8)); //四倍行距
 
-//    valueL->setReadOnly(true);
-
-    valueL->setWordWrap(true);
     valueL->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
 
@@ -36,8 +30,6 @@ QHBoxLayout* CommonUtils::createShowLayout(QString &key, QString& value, int wid
     hLayout->addWidget(keyL);
     hLayout->addWidget(valueL);
 
-    hLayout->setStretch(0,4);
-    hLayout->setStretch(1,6);
     hLayout->setEnabled(true);
 
     return hLayout;
