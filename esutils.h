@@ -17,6 +17,7 @@ public:
     static bool addAlias(Conn *conn, EsIndex* esIndex,QString& aliasName);
     static bool changeAlias(Conn *conn, EsIndex* esIndex,QString& oldAlias,QString& newAlias);
     static bool removeAlias(Conn *conn, EsIndex* esIndex,QString& oldAlias);
+    static void getBaseUrl(QString &url,Conn* conn);
 };
 
 #endif // ESUTILS_H

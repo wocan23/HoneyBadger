@@ -138,5 +138,36 @@ bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias){
 }
 
 bool EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
+    QString indexName =  esIndex->getName();
+    QString url ;
+    getBaseUrl(url,conn);
+    url = url + "_aliases";
+    QString param("{ \
+                  \"actions\": [ \
+                    { \
+                      \"add\": { \
+                        \"index\": \""+indexName+"\", \
+                        \"alias\": \""+aliasName+"\" \
+                      } \
+                    } \
+                  ] \
+                }");
+    QString res = HttpUtils::Post(url,param);
+    qDebug()<<res;
+    QJsonParseError jsonerror;
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
+    QJsonObject obj = doc.object();
+    QJsonValue ack = obj.value("acknowledged");
+    if(ack.isNull()){
+        return false;
+    }
+    return true;
+}
 
+void EsUtils::getBaseUrl(QString &url, Conn *conn){
+    if(conn->getUserName() == NULL || conn->getPwd() == NULL || conn->getUserName() == "" || conn->getPwd() == ""){
+        url = "http://"+conn->getIp()+":"+conn->getPort()+"/";
+    }else{
+        url = "http://"+conn->getUserName()+":"+conn->getPwd()+"@"+conn->getIp()+":"+conn->getPort()+"/";
+    }
 }

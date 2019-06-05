@@ -9,10 +9,12 @@
 EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidget *parent) : QTreeWidgetItem(parent)
 {
     conn = NULL;
+    esIndex = NULL;
 }
 EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidgetItem *parent) : QTreeWidgetItem(parent)
 {
     conn = NULL;
+    esIndex = NULL;
 }
 
 EsTreeWidgetItem::~EsTreeWidgetItem(){
@@ -39,7 +41,7 @@ void EsTreeWidgetItem::doubleClickConn(){
 
         QString *aliasNamesPtr = conn->getIndics()[i].getAliasNames();
         if(aliasNamesPtr != NULL){
-            int aliasSize = sizeof(aliasNamesPtr)/sizeof (aliasNamesPtr[0]);
+            int aliasSize = sizeof(*aliasNamesPtr)/sizeof (aliasNamesPtr[0]);
             QStringList aliasList;
             for(int j = 0; j < aliasSize; j++){
                 aliasList<<aliasNamesPtr[j];

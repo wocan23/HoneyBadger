@@ -1,10 +1,17 @@
 #include "estreewidget.h"
 #include "estreewidgetitem.h"
 
-#include "httputils.h"
+
+
 #include "handler.h"
+#include "esutils.h"
+
+#include <QMessageBox>
+#include <QInputDialog>
 #include <QTreeWidgetItem>
 #include <QDebug>
+#include <QLineEdit>
+
 
 EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 {
@@ -62,6 +69,7 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     connect(editConn, SIGNAL(triggered(bool)), this, SLOT(editConn())); //右键动作槽
     connect(closeConn, SIGNAL(triggered(bool)), this, SLOT(closeConn())); //右键动作槽
     connect(editIndex, SIGNAL(triggered(bool)), this, SLOT(editIndex())); //右键动作槽
+    connect(addAlias, SIGNAL(triggered(bool)), this, SLOT(addAlias())); //右键动作槽
     connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int )),this,SLOT(editFinish(QTreeWidgetItem *, int)));
 
 }
@@ -126,7 +134,38 @@ void EsTreeWidget::editIndex(){
 }
 
 void EsTreeWidget::addAlias(){
-
+    Conn * conn = this->currentItem->getConn();
+    EsIndex * index = this->currentItem->getEsIndex();
+    QString aliasName = "atesffs";
+    bool isOK;
+    QString *aliasNamesPtr = index->getAliasNames();
+    QString oldAlias("");
+    if(aliasNamesPtr != NULL){
+        int aliasSize = sizeof(*aliasNamesPtr)/sizeof (aliasNamesPtr[0]);
+        QStringList aliasList;
+        for(int j = 0; j < aliasSize; j++){
+            aliasList<<aliasNamesPtr[j];
+        }
+        oldAlias = aliasList.join(",");
+    }
+    QInputDialog * inputDialog = new QInputDialog(this);
+    inputDialog->setTextValue("新别名");
+    inputDialog->setLabelText("原别名:"+oldAlias);
+    inputDialog->setOkButtonText("确定");
+    inputDialog->setCancelButtonText("取消");
+    int res = inputDialog->exec();
+    if(res == 0){
+        return;
+    }
+    QString newAlias = inputDialog->textValue();
+    bool ack = EsUtils::addAlias(conn,index,newAlias);
+    if(ack){
+        QMessageBox::information(this,"提示","添加成功","确定");
+        QColor color("green");
+        this->currentItem->setTextColor(0,color);
+    }else{
+        QMessageBox::information(this,"提示","添加失败","确定");
+    }
 }
 
 void EsTreeWidget::removeAlias(){
@@ -160,8 +199,10 @@ void EsTreeWidget::editFinish(QTreeWidgetItem *item, int column){
         }
         break;
     case INDEX:
-        QString lastName = esItem->getEsIndex()->getName();
-        //QString newName = esItem->text(column);
+        if(esItem->getEsIndex() != NULL){
+            QString lastName = esItem->getEsIndex()->getName();
+            //QString newName = esItem->text(column);
+        }
         break;
     }
 }
