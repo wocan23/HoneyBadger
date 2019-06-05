@@ -68,11 +68,14 @@ QString CommonUtils::toJsonFormat(QString &jsonStr){
     QString str;
     int tab = 0;
     bool isTab = false;
+    int quotNum = 0;
     for (int i=0; i < jsonStr.length(); i++) {
         QChar ch = jsonStr.at(i);
-
+        if(ch == '"'){
+            quotNum++;
+        }
         // 前面加回车加tab
-        if(ch == '}'){
+        if(ch == '}' && quotNum%2 == 0){
             tab--;
             str.append("\n");
             for (int j = 0 ; j < tab; j++) {
@@ -82,19 +85,21 @@ QString CommonUtils::toJsonFormat(QString &jsonStr){
 
         str.append(ch);
         // 后处理
-        if(ch == '{'){
-            tab++;
-            str.append("\n");
-            isTab = true;
-        }else if(ch == ','){
-            str.append("\n");
-            isTab = true;
-        }else{
-            isTab = false;
-        }
-        if(isTab){
-            for (int j = 0 ; j < tab; j++) {
-                str.append("\t");
+        if( quotNum%2 == 0){
+            if(ch == '{'){
+                tab++;
+                str.append("\n");
+                isTab = true;
+            }else if(ch == ','){
+                str.append("\n");
+                isTab = true;
+            }else{
+                isTab = false;
+            }
+            if(isTab){
+                for (int j = 0 ; j < tab; j++) {
+                    str.append("\t");
+                }
             }
         }
     }
