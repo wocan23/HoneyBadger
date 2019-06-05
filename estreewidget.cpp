@@ -19,7 +19,6 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     connect(hand,SIGNAL(addConnSignal(Conn*)),this,SLOT(addConn(Conn*)));
     connect(this,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(esItemDoubleClicked(QTreeWidgetItem*, int)));
 
-
     // 索引菜单
     QMenu * indexMenu = new QMenu;
 

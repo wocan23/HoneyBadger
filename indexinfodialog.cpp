@@ -43,9 +43,12 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
         aliasNameStr = "";
     }
 
-    QHBoxLayout * indexLayout = CommonUtils::createShowLayout(indexNameL,indexName);
-    QHBoxLayout * aliasLayout = CommonUtils::createShowLayout(aliasNameL,aliasNameStr);
-    QHBoxLayout * settingsLayout = CommonUtils::createShowLayout(settingsNameL,settings);
+    QSize dialogSize = this->size();
+    int width = dialogSize.width();
+
+    QHBoxLayout * indexLayout = CommonUtils::createShowLayout(indexNameL,indexName,width/3*2);
+    QHBoxLayout * aliasLayout = CommonUtils::createShowLayout(aliasNameL,aliasNameStr,width/3*2);
+    QHBoxLayout * settingsLayout = CommonUtils::createShowLayout(settingsNameL,settings,width/3*2);
 
     vlayout->addLayout(indexLayout);
     vlayout->addLayout(aliasLayout);
@@ -57,7 +60,7 @@ void IndexInfoDialog::flushIndexInfo(EsIndex *esIndex){
     for (int i = 0; i < mappings.size(); i++) {
         QString key = keys.at(i);
         QString value = mappings.value(key);
-        QHBoxLayout * mLayout = CommonUtils::createShowLayout(key,value);
+        QHBoxLayout * mLayout = CommonUtils::createShowLayout(key,value,width/3*2);
         vmLayout->addLayout(mLayout);
     }
     QHBoxLayout * mappingssLayout = CommonUtils::createShowLayout(mappingsL, vmLayout);
