@@ -1,11 +1,14 @@
 #include "esindextabwidegt.h"
 #include "estreewidgetitem.h"
+#include "esquerywidget.h"
+#include "tabcontentwidget.h"
 #include "handler.h"
 #include "pagewidget.h"
 #include "httputils.h"
 #include "esutils.h"
 #include "esindextablewidget.h"
-#include "tabcontentwidget.h"
+
+
 
 #include <QVBoxLayout>
 #include <QTextBrowser>
@@ -81,7 +84,8 @@ void EsIndexTabWidegt::addIndexQueryTab(Conn *conn, EsIndex* esIndex){
     QString indexName = esIndex->getName();
     QString tabLabel = "查询@"+indexName +"@"+ connName;
     QIcon icon(INDEX_QUERY_ICON_PATH);
-    QTextBrowser *brower= new QTextBrowser;
-    brower->setText("查询");
-    this->addTab(brower,icon,tabLabel);
+    EsQueryWidget * queryWidget = new EsQueryWidget;
+    queryWidget->setIndex(esIndex);
+    queryWidget->setConn(conn);
+    this->addTab(queryWidget,icon,tabLabel);
 }

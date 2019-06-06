@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMap>
 
+
 class EsIndex
 {
 private:
@@ -11,6 +12,8 @@ private:
     QStringList aliasNames;
     QString settings;
     QMap<QString,QString> mappings;
+
+//    Conn *conn;
 public:
     EsIndex();
 
@@ -18,11 +21,15 @@ public:
     void setAliasNames(QStringList aliasNames);
     void setSettings(QString settings);
     void setMappings(QMap<QString,QString> mappings);
+//    void setConn(Conn * conn);
 
     QString getName();
     QStringList getAliasNames();
     QString getSettings();
     QMap<QString,QString> getMappings();
+//    Conn* getConn();
+
+
 };
 
 #endif // ESINDEX_H

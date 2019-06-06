@@ -29,6 +29,7 @@ public slots:
    void showIndexInfo();
 
    void editIndex();
+   void queryIndex();
    void addAlias();
    void removeAlias();
    void editAlias();

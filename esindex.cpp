@@ -29,3 +29,11 @@ QString EsIndex::getSettings(){
 QMap<QString,QString> EsIndex::getMappings(){
     return this->mappings;
 }
+
+//void EsIndex::setConn(Conn *conn){
+//    this->conn = conn;
+//}
+
+//Conn* EsIndex::getConn(){
+//    return this->conn;
+//}

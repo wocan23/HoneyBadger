@@ -1,8 +1,5 @@
 #include "estreewidget.h"
 #include "estreewidgetitem.h"
-
-
-
 #include "handler.h"
 #include "esutils.h"
 
@@ -11,6 +8,7 @@
 #include <QTreeWidgetItem>
 #include <QDebug>
 #include <QLineEdit>
+#include "esquerywidget.h"
 
 
 EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
@@ -22,6 +20,12 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     // 索引菜单
     QMenu * indexMenu = new QMenu;
 
+    QAction * queryIndex = new QAction(this);
+    queryIndex->setText("查询");
+    indexMenu ->addAction(queryIndex);
+
+    indexMenu->addSeparator();
+
     QAction * indexInfo = new QAction(this);
     indexInfo->setText("索引信息");
     indexMenu ->addAction(indexInfo);
@@ -29,6 +33,7 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     QAction * editIndex = new QAction(this);
     editIndex->setText("编辑");
     indexMenu ->addAction(editIndex);
+
 
     indexMenu->addSeparator();
 
@@ -65,6 +70,7 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     this->connMenu = connMenu;
 
     connect(indexInfo, SIGNAL(triggered(bool)), this, SLOT(showIndexInfo())); //右键动作槽
+    connect(queryIndex, SIGNAL(triggered(bool)), this, SLOT(queryIndex())); //右键动作槽
     connect(connInfo, SIGNAL(triggered(bool)), this, SLOT(showConnInfo())); //右键动作槽
     connect(editConn, SIGNAL(triggered(bool)), this, SLOT(editConn())); //右键动作槽
     connect(closeConn, SIGNAL(triggered(bool)), this, SLOT(closeConn())); //右键动作槽
@@ -234,4 +240,9 @@ void EsTreeWidget::editFinish(QTreeWidgetItem *item, int column){
         }
         break;
     }
+}
+
+void EsTreeWidget::queryIndex(){
+    Handler* hand = Handler::getInstance();
+    emit hand->addTabSignal(this->currentItem->getConn(),this->currentItem->getEsIndex(),QUERY);
 }
