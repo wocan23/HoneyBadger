@@ -3,6 +3,7 @@
 #include "esutils.h"
 #include "commonutils.h"
 #include <QPushButton>
+#include <QDebug>
 
 
 
@@ -124,9 +125,23 @@ void EsQueryWidget::setParamBar(QString &paramStr){
     qf.setPointSize(13);
     this->paramBar->setFont(qf);
     bool finded = this->paramBar->find("FIELD",QTextDocument::FindCaseSensitively);
+    QTextDocument* document = this->paramBar->document();
+    QTextCursor cursor;
     if(!finded){
         this->paramBar->find("VALUE",QTextDocument::FindCaseSensitively);
+        cursor = document->find("VALUE",QTextDocument::FindCaseSensitively);
+    }else {
+        cursor = document->find("FIELD",QTextDocument::FindCaseSensitively);
     }
+    this->paramBar->setFocus();
+
+    int pos = cursor.position();
+    this->paramBar->show();
+    QTextCursor cs =this->paramBar->textCursor();
+    cs.movePosition(QTextCursor::Start);
+    cs.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,pos);
+    this->paramBar->setTextCursor(cs);
+
 }
 
 void EsQueryWidget::query(){

@@ -64,9 +64,13 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     editConn->setText("编辑连接名称");
     connMenu ->addAction(editConn);
 
+    connMenu->addSeparator();
+
     QAction * updateConn = new QAction(this);
     updateConn->setText("修改连接信息");
     connMenu ->addAction(updateConn);
+
+    connMenu->addSeparator();
 
     QAction * closeConn = new QAction(this);
     closeConn->setText("关闭连接");
