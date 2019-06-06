@@ -6,5 +6,6 @@
         <file>pic/editDoc.png</file>
         <file>pic/index.png</file>
         <file>pic/search.png</file>
+        <file>pic/help.png</file>
     </qresource>
 </RCC>
