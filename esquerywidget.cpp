@@ -54,8 +54,10 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     // 查询路径
     QHBoxLayout * hboxLayout = new QHBoxLayout;
     QLineEdit * urlBar = new QLineEdit;
+    QPushButton * clearBtn = new QPushButton("清空");
     QPushButton * queryBtn = new QPushButton("查询");
     hboxLayout->addWidget(urlBar);
+    hboxLayout->addWidget(clearBtn);
     hboxLayout->addWidget(queryBtn);
     // 文本域:参数
     QPlainTextEdit *paramBar = new QPlainTextEdit;
@@ -73,7 +75,10 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     boxLayout->addLayout(hboxLayout);
     boxLayout->addWidget(paramBar);
     boxLayout->addWidget(resultContent);
+    boxLayout->addWidget(resNum);
 
+    boxLayout->setStretchFactor(paramBar,3);
+    boxLayout->setStretchFactor(resultContent,6);
     this->setLayout(boxLayout);
 
     // 槽事件
@@ -94,8 +99,50 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     connect(existAction,SIGNAL(triggered()),this,SLOT(exist()));
 
     connect(queryBtn,SIGNAL(clicked()),this,SLOT(query()));
+    connect(clearBtn,SIGNAL(clicked()),this,SLOT(clearParam()));
 
 }
+
+void EsQueryWidget::setUrlBar(){
+    EsIndex * index = this->currIndex;
+    Conn * conn = this->conn;
+    QString baseUrl1;
+    EsUtils::getBaseUrl(baseUrl1,conn);
+    this->urlBar->setText(baseUrl1+index->getName()+"/"+"_search");
+    this->urlBar->setEnabled(false);
+}
+
+void EsQueryWidget::setConn(Conn *conn){
+    this->conn = conn;
+}
+
+void EsQueryWidget::setParamBar(QString &paramStr){
+    QString jsonFormatParam = CommonUtils::toJsonFormat(paramStr);
+    this->paramBar->setPlainText(jsonFormatParam);
+    QFont qf;
+    qf.setBold(true);
+    qf.setPointSize(13);
+    this->paramBar->setFont(qf);
+    bool finded = this->paramBar->find("FIELD",QTextDocument::FindCaseSensitively);
+    if(!finded){
+        this->paramBar->find("VALUE",QTextDocument::FindCaseSensitively);
+    }
+}
+
+void EsQueryWidget::query(){
+    int totalSize = 0;
+    QList<QMap<QString,QString>> resList = EsUtils::query(this->urlBar->text(),this->paramBar->toPlainText(),totalSize);
+    QStringList fields = this->currIndex->getMappings().keys();
+    CommonUtils::fullEsTableData(this->resultContent,resList,fields);
+    this->resNum->setText("总"+QString::number(totalSize)+"条，默认显示10条");
+}
+
+void EsQueryWidget::clearParam(){
+    this->paramBar->clear();
+}
+
+
+
 
 
 void EsQueryWidget::must(){
@@ -313,35 +360,4 @@ void EsQueryWidget::setIndex(EsIndex *esIndex){
     this->currIndex = esIndex;
 }
 
-void EsQueryWidget::setUrlBar(){
-    EsIndex * index = this->currIndex;
-    Conn * conn = this->conn;
-    QString baseUrl1;
-    EsUtils::getBaseUrl(baseUrl1,conn);
-    this->urlBar->setText(baseUrl1+index->getName()+"/"+"_search");
-    this->urlBar->setEnabled(false);
-}
 
-void EsQueryWidget::setConn(Conn *conn){
-    this->conn = conn;
-}
-
-void EsQueryWidget::setParamBar(QString &paramStr){
-    QString jsonFormatParam = CommonUtils::toJsonFormat(paramStr);
-    this->paramBar->setPlainText(jsonFormatParam);
-    QFont qf;
-    qf.setBold(true);
-    qf.setPointSize(13);
-    this->paramBar->setFont(qf);
-    bool finded = this->paramBar->find("FIELD",QTextDocument::FindCaseSensitively);
-    if(!finded){
-        this->paramBar->find("VALUE",QTextDocument::FindCaseSensitively);
-    }
-}
-
-void EsQueryWidget::query(){
-    int totalSize = 0;
-    QList<QMap<QString,QString>> resList = EsUtils::query(this->urlBar->text(),this->paramBar->toPlainText(),totalSize);
-    QStringList fields = this->currIndex->getMappings().keys();
-    CommonUtils::fullEsTableData(this->resultContent,resList,fields);
-}

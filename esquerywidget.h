@@ -46,6 +46,7 @@ public slots:
     void exist();
 
     void query();
+    void clearParam();
 
 private:
     EsIndex * currIndex;
