@@ -2,6 +2,7 @@
 #define CREATECONNDIALOG_H
 
 #include <QDialog>
+#include <conn.h>
 
 namespace Ui {
 class CreateConnDialog;
@@ -13,6 +14,7 @@ class CreateConnDialog : public QDialog
 
 public:
     explicit CreateConnDialog(QWidget *parent = nullptr);
+    explicit CreateConnDialog(Conn* conn, QWidget *parent= nullptr);
     ~CreateConnDialog();
 
 private slots:
@@ -21,6 +23,8 @@ private slots:
 
 private:
     Ui::CreateConnDialog *ui;
+    bool isEdit;
+    Conn *conn;
 };
 
 #endif // CREATECONNDIALOG_H

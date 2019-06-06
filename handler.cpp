@@ -25,6 +25,10 @@ void Handler::addConn(Conn *conn){
     emit addConnSignal(conn);
 }
 
+void Handler::editConn(Conn *conn){
+    emit editConnSignal(conn);
+}
+
 QString Handler::getUUID(){
     QUuid id = QUuid::createUuid();
     QString strId = id.toString();

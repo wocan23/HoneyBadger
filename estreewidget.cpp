@@ -9,12 +9,13 @@
 #include <QDebug>
 #include <QLineEdit>
 #include "esquerywidget.h"
-
+#include "createconndialog.h"
 
 EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 {
     Handler * hand = Handler::getInstance();
     connect(hand,SIGNAL(addConnSignal(Conn*)),this,SLOT(addConn(Conn*)));
+    connect(hand,SIGNAL(editConnSignal(Conn*)),this,SLOT(editConnFinish(Conn*)));
     connect(this,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(esItemDoubleClicked(QTreeWidgetItem*, int)));
 
     // 索引菜单
@@ -60,20 +61,34 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     connMenu->addAction(connInfo);
 
     QAction * editConn = new QAction(this);
-    editConn->setText("修改连接名称");
+    editConn->setText("编辑连接名称");
     connMenu ->addAction(editConn);
+
+    QAction * updateConn = new QAction(this);
+    updateConn->setText("修改连接信息");
+    connMenu ->addAction(updateConn);
 
     QAction * closeConn = new QAction(this);
     closeConn->setText("关闭连接");
     connMenu ->addAction(closeConn);
 
+    connMenu->addSeparator();
+
+    QAction * removeConn = new QAction(this);
+    removeConn->setText("删除连接");
+    connMenu ->addAction(removeConn);
+
     this->connMenu = connMenu;
 
-    connect(indexInfo, SIGNAL(triggered(bool)), this, SLOT(showIndexInfo())); //右键动作槽
-    connect(queryIndex, SIGNAL(triggered(bool)), this, SLOT(queryIndex())); //右键动作槽
+
     connect(connInfo, SIGNAL(triggered(bool)), this, SLOT(showConnInfo())); //右键动作槽
     connect(editConn, SIGNAL(triggered(bool)), this, SLOT(editConn())); //右键动作槽
     connect(closeConn, SIGNAL(triggered(bool)), this, SLOT(closeConn())); //右键动作槽
+    connect(removeConn, SIGNAL(triggered(bool)), this, SLOT(removeConn())); //右键动作槽
+    connect(updateConn, SIGNAL(triggered(bool)), this, SLOT(updateConn())); //右键动作槽
+
+    connect(indexInfo, SIGNAL(triggered(bool)), this, SLOT(showIndexInfo())); //右键动作槽
+    connect(queryIndex, SIGNAL(triggered(bool)), this, SLOT(queryIndex())); //右键动作槽
     connect(editIndex, SIGNAL(triggered(bool)), this, SLOT(editIndex())); //右键动作槽
     connect(addAlias, SIGNAL(triggered(bool)), this, SLOT(addAlias())); //右键动作槽
     connect(removeAlias, SIGNAL(triggered(bool)), this, SLOT(removeAlias())); //右键动作槽
@@ -107,6 +122,16 @@ void EsTreeWidget::addConn(Conn *conn){
     connItem->setConn(conn);
     connItem->setEsItemType(CONN);
     connItem->setOpen(false);
+}
+
+void EsTreeWidget::editConnFinish(Conn *conn){
+    EsTreeWidgetItem *connItem = this->currentItem;
+    connItem->setText(0,conn->getConnName());
+    connItem->setIcon(0,QIcon(":/icon/pic/conn.png"));
+    connItem->setConn(conn);
+    connItem->setEsItemType(CONN);
+    connItem->setOpen(false);
+    this->closeConn();
 }
 
 void EsTreeWidget::contextMenuEvent(QContextMenuEvent *event){
@@ -245,4 +270,15 @@ void EsTreeWidget::editFinish(QTreeWidgetItem *item, int column){
 void EsTreeWidget::queryIndex(){
     Handler* hand = Handler::getInstance();
     emit hand->addTabSignal(this->currentItem->getConn(),this->currentItem->getEsIndex(),QUERY);
+}
+
+void EsTreeWidget::removeConn(){
+    this->removeItemWidget(this->currentItem,0);
+    delete this->currentItem;
+}
+
+void EsTreeWidget::updateConn(){
+    Conn *conn = this->currentItem->getConn();
+    CreateConnDialog* dialog = new CreateConnDialog(conn);
+    dialog->exec();
 }

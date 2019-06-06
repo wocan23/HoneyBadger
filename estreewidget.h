@@ -36,7 +36,10 @@ public slots:
 
    void closeConn();
    void editConn();
+   void updateConn();
+   void editConnFinish(Conn *conn);
    void editFinish(QTreeWidgetItem *item, int column);
+   void removeConn();
 
 private:
    QMenu * indexMenu;

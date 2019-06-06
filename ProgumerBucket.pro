@@ -29,6 +29,7 @@ SOURCES += \
         conn.cpp \
         conninfodialog.cpp \
         createconndialog.cpp \
+        dbutils.cpp \
         esindex.cpp \
         esindextablewidget.cpp \
         esindextabwidegt.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
         conn.h \
         conninfodialog.h \
         createconndialog.h \
+        dbutils.h \
         esindex.h \
         esindextablewidget.h \
         esindextabwidegt.h \

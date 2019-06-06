@@ -15,6 +15,7 @@ private:
 
 signals:
     void addConnSignal(Conn * conn);
+    void editConnSignal(Conn * conn);
     void addTabSignal(Conn*conn,EsIndex* esIndex, TabType tabType);
 public:
     static Handler* getInstance();
@@ -25,6 +26,7 @@ public:
 
 
     void addConn(Conn *conn);
+    void editConn(Conn *conn);
 
 public slots:
 
