@@ -63,7 +63,7 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QString baseUrl = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
     QString url = baseUrl +"?size=20";
     int totalSize;
-    QList<QMap<QString,QString>> list = EsUtils::query(url,totalSize);
+    QList<QMap<QString,QString>> list = EsUtils::query(url,"{}",totalSize);
 
 
     QMap<QString,QString> mappings = esIndex->getMappings();
@@ -87,5 +87,7 @@ void EsIndexTabWidegt::addIndexQueryTab(Conn *conn, EsIndex* esIndex){
     EsQueryWidget * queryWidget = new EsQueryWidget;
     queryWidget->setIndex(esIndex);
     queryWidget->setConn(conn);
+    queryWidget->setUrlBar();
     this->addTab(queryWidget,icon,tabLabel);
+    this->setCurrentWidget(queryWidget);
 }

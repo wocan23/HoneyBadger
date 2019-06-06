@@ -1,7 +1,9 @@
 #include "esquerywidget.h"
 
 #include "esutils.h"
-#include <QDebug>
+#include "commonutils.h"
+#include <QPushButton>
+
 
 
 EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
@@ -27,7 +29,7 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     QAction * fuzzyActon = new QAction("fuzzy");
     QAction * regexAction = new QAction("regex");
     QAction * wildcardAction = new QAction("wildcard");
-    QAction * existAction = new QAction("exist");
+    QAction * existAction = new QAction("exists");
 
     toolBar->addAction(mustActon);
     toolBar->addAction(mustNotActon);
@@ -48,10 +50,15 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     toolBar->addAction(existAction);
 
 
+
     // 查询路径
+    QHBoxLayout * hboxLayout = new QHBoxLayout;
     QLineEdit * urlBar = new QLineEdit;
+    QPushButton * queryBtn = new QPushButton("查询");
+    hboxLayout->addWidget(urlBar);
+    hboxLayout->addWidget(queryBtn);
     // 文本域:参数
-    QTextBrowser *paramBar = new QTextBrowser;
+    QPlainTextEdit *paramBar = new QPlainTextEdit;
     // 结果列表
     QTableWidget * resultContent = new QTableWidget;
     // 结果条数信息
@@ -63,12 +70,11 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     this->resultContent = resultContent;
 
     boxLayout->addWidget(toolBar);
-    boxLayout->addWidget(urlBar);
+    boxLayout->addLayout(hboxLayout);
     boxLayout->addWidget(paramBar);
     boxLayout->addWidget(resultContent);
 
     this->setLayout(boxLayout);
-
 
     // 槽事件
     connect(mustActon,SIGNAL(triggered()),this,SLOT(must()));
@@ -87,35 +93,221 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     connect(wildcardAction,SIGNAL(triggered()),this,SLOT(wildcard()));
     connect(existAction,SIGNAL(triggered()),this,SLOT(exist()));
 
+    connect(queryBtn,SIGNAL(clicked()),this,SLOT(query()));
+
 }
 
 
 void EsQueryWidget::must(){
     setUrlBar();
-    this->paramBar->setText("{\
+    QString paramStr = " { \
+                       \"query\":{\
+                           \"bool\":{\
+                               \"must\":[\
+                                   {\
+                                       \"term\":{\
+                                           \"FIELD\":\"VALUE\"\
+                                       }\
+                                   }\
+                               ]\
+                           }\
+                       }\
+                   }";
+    setParamBar(paramStr);
+
+}
+void EsQueryWidget::mustNot(){
+    setUrlBar();
+    QString paramStr = " { \
+                       \"query\":{\
+                           \"bool\":{\
+                               \"must_not\":[\
+                                   {\
+                                       \"term\":{\
+                                           \"FIELD\":\"VALUE\"\
+                                       }\
+                                   }\
+                               ]\
+                           }\
+                       }\
+                   }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::should(){
+    setUrlBar();
+    QString paramStr = " { \
+                       \"query\":{\
+                           \"bool\":{\
+                               \"should\":[\
+                                   {\
+                                       \"term\":{\
+                                           \"FIELD\":\"VALUE\"\
+                                       }\
+                                   }\
+                               ]\
+                           }\
+                       }\
+                   }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::boolF(){
+    setUrlBar();
+    QString paramStr = " { \
+                       \"query\":{\
+                           \"bool\":{\
+                               \"must\":[\
+                                   {\
+                                       \"term\":{\
+                                           \"FIELD\":\"VALUE\"\
+                                       }\
+                                   }\
+                               ],\
+                                \"must_not\":[\
+                                    {\
+                                        \"term\":{\
+                                            \"FIELD\":\"VALUE\"\
+                                        }\
+                                    }\
+                                ],\
+                               \"should\":[\
+                                   {\
+                                       \"term\":{\
+                                           \"FIELD\":\"VALUE\"\
+                                       }\
+                                   }\
+                               ]\
+                           }\
+                       }\
+                   }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::ids(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"ids\":{\
+                                    \"values\":[\"VALUE\"]\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::match(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"match\":{\
+                                    \"FIELD\":\"value\"\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::multMatch(){
+    setUrlBar();
+    QString paramStr = "{\
+                       \"query\":{\
+                           \"match\":{\
+                               \"FIELD\":{\
+                                   \"query\":\"VALUE\",\
+                                   \"minimum_should_match\":1\
+                               }\
+                           }\
+                       }\
+                   }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::matchPhrase(){
+    setUrlBar();
+    QString paramStr = "{\
+                       \"query\":{\
+                           \"match_phrase\":{\
+                               \"FIELD\":{\
+                                   \"query\":\"VALUE\",\
+                                   \"minimum_should_match\":1\
+                               }\
+                           }\
+                       }\
+                   }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::term(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"term\":{\
+                                    \"FIELD\":\"VALUE\"\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::terms(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"terms\":{\
+                                    \"FIELD\":[\"VALUE\"]\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::range(){
+    setUrlBar();
+    QString paramStr = "{\
                             \"query\":{\
                                 \"term\":{\
                                     \"field\":\"value\"\
                                 }\
                             }\
-                        }");
+                        }";
+    setParamBar(paramStr);
 }
-void EsQueryWidget::mustNot(){
-
+void EsQueryWidget::fuzzy(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"fuzzy\":{\
+                                    \"FIELD\":\"VALUE\"\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
 }
-void EsQueryWidget::should(){}
-void EsQueryWidget::boolF(){}
-void EsQueryWidget::ids(){}
-void EsQueryWidget::match(){}
-void EsQueryWidget::multMatch(){}
-void EsQueryWidget::matchPhrase(){}
-void EsQueryWidget::term(){}
-void EsQueryWidget::terms(){}
-void EsQueryWidget::range(){}
-void EsQueryWidget::fuzzy(){}
-void EsQueryWidget::regex(){}
-void EsQueryWidget::wildcard(){}
-void EsQueryWidget::exist(){}
+void EsQueryWidget::regex(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"regex\":{\
+                                    \"FIELD\":\"VALUE\"\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::wildcard(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"wildcard\":{\
+                                    \"FIELD\":\"VALUE\"\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
+void EsQueryWidget::exist(){
+    setUrlBar();
+    QString paramStr = "{\
+                            \"query\":{\
+                                \"exists\":{\
+                                    \"FIELD\":\"VALUE\"\
+                                }\
+                            }\
+                        }";
+    setParamBar(paramStr);
+}
 
 void EsQueryWidget::setIndex(EsIndex *esIndex){
     this->currIndex = esIndex;
@@ -124,12 +316,32 @@ void EsQueryWidget::setIndex(EsIndex *esIndex){
 void EsQueryWidget::setUrlBar(){
     EsIndex * index = this->currIndex;
     Conn * conn = this->conn;
-    QString baseUrl;
-    EsUtils::getBaseUrl(baseUrl,conn);
-    this->urlBar->setText(baseUrl+"_search");
+    QString baseUrl1;
+    EsUtils::getBaseUrl(baseUrl1,conn);
+    this->urlBar->setText(baseUrl1+index->getName()+"/"+"_search");
     this->urlBar->setEnabled(false);
 }
 
 void EsQueryWidget::setConn(Conn *conn){
     this->conn = conn;
+}
+
+void EsQueryWidget::setParamBar(QString &paramStr){
+    QString jsonFormatParam = CommonUtils::toJsonFormat(paramStr);
+    this->paramBar->setPlainText(jsonFormatParam);
+    QFont qf;
+    qf.setBold(true);
+    qf.setPointSize(13);
+    this->paramBar->setFont(qf);
+    bool finded = this->paramBar->find("FIELD",QTextDocument::FindCaseSensitively);
+    if(!finded){
+        this->paramBar->find("VALUE",QTextDocument::FindCaseSensitively);
+    }
+}
+
+void EsQueryWidget::query(){
+    int totalSize = 0;
+    QList<QMap<QString,QString>> resList = EsUtils::query(this->urlBar->text(),this->paramBar->toPlainText(),totalSize);
+    QStringList fields = this->currIndex->getMappings().keys();
+    CommonUtils::fullEsTableData(this->resultContent,resList,fields);
 }

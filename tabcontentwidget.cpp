@@ -61,7 +61,7 @@ void TabContentWidget::flushData(QList<QMap<QString, QString> >& data, QStringLi
 void TabContentWidget::to(int page, int pageSize){
     int totalSize;
     QString url = this->queryUrl+"?size="+QString::number(pageSize)+"&from="+QString::number(pageSize*(page-1));
-    QList<QMap<QString,QString>> list = EsUtils::query(url,totalSize);
+    QList<QMap<QString,QString>> list = EsUtils::query(url,"{}",totalSize);
     flushData(list,this->fields,totalSize,page,pageSize);
 }
 

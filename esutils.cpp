@@ -14,8 +14,8 @@ EsUtils::EsUtils()
 
 }
 
-QList<QMap<QString,QString>> EsUtils::query(QString url,int& totalSize){
-    QString res = HttpUtils::Get(url);
+QList<QMap<QString,QString>> EsUtils::query(QString url,QString param,int& totalSize){
+    QString res = HttpUtils::Post(url,param);
     QJsonParseError parseError;
     QJsonDocument document = QJsonDocument::fromJson(res.toUtf8(),&parseError);
     // 最外层是一个object/数组，这里是object

@@ -56,12 +56,15 @@ QHBoxLayout* CommonUtils::createShowLayout(QString &key, QLayout* layout){
 }
 
 QString CommonUtils::toJsonFormat(QString &jsonStr){
+    QString oldStr = jsonStr;
+    oldStr.replace("\t","");
+    oldStr.replace(" ","");
     QString str;
     int tab = 0;
     bool isTab = false;
     int quotNum = 0;
-    for (int i=0; i < jsonStr.length(); i++) {
-        QChar ch = jsonStr.at(i);
+    for (int i=0; i < oldStr.length(); i++) {
+        QChar ch = oldStr.at(i);
         if(ch == '"'){
             quotNum++;
         }
@@ -70,7 +73,7 @@ QString CommonUtils::toJsonFormat(QString &jsonStr){
             tab--;
             str.append("\n");
             for (int j = 0 ; j < tab; j++) {
-                str.append("\t");
+                str.append("    ");
             }
         }
 
@@ -89,10 +92,40 @@ QString CommonUtils::toJsonFormat(QString &jsonStr){
             }
             if(isTab){
                 for (int j = 0 ; j < tab; j++) {
-                    str.append("\t");
+                    str.append("    ");
                 }
             }
         }
     }
     return str;
+}
+
+void CommonUtils::fullEsTableData(QTableWidget* tableWidget,QList<QMap<QString, QString> > &data, QStringList &fields){
+    tableWidget->setColumnCount(fields.size());
+    tableWidget->setRowCount(data.size());
+    tableWidget->setVisible(true);
+    tableWidget->setShowGrid(true);
+    tableWidget->setHorizontalHeaderLabels(fields);
+
+    for(int i = 0 ;i < data.size(); i ++){
+        QMap<QString,QString> obj = data.at(i);
+        for (int j = 0; j < fields.size(); j++) {
+            QString field = fields.at(j);
+            QString v;
+            if(obj.contains(field)){
+               v = obj.find(field).value();
+            }else{
+               v = "";
+            }
+            QTableWidgetItem * item = tableWidget->item(i,j);
+            if(item == NULL){
+                item = new QTableWidgetItem(v);
+                tableWidget->setItem(i,j,item);
+            }else{
+                item->setText(v);
+            }
+
+        }
+    }
+
 }

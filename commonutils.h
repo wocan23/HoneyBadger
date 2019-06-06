@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QWidget>
 #include <QInputDialog>
+#include <QTableWidget>
 
 class CommonUtils
 {
@@ -13,6 +14,7 @@ public:
     static QHBoxLayout * createShowLayout(QString& key, QString& value,int width);
     static QHBoxLayout * createShowLayout(QString& key, QLayout* layout);
     static QString toJsonFormat(QString &jsonStr);
+    static void fullEsTableData(QTableWidget* tableWidget,QList<QMap<QString,QString>>& data,QStringList& fields);
 };
 
 #endif // COMMONUTILS_H

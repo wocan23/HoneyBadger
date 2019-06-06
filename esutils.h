@@ -10,7 +10,7 @@ class EsUtils
 public:
     EsUtils();
 
-    static QList<QMap<QString,QString>> query(QString url,int& size);
+    static QList<QMap<QString,QString>> query(QString url,QString param,int& size);
     static QString JsonValueToString(QJsonValue value);
     static EsIndex* parseIndics(QString &str,int& size);
     static bool changeName(Conn *conn, EsIndex* esIndex,QString& newName);

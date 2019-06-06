@@ -9,9 +9,9 @@
 
 #include <QMap>
 #include <QLineEdit>
-#include <QTextBrowser>
 #include <QVBoxLayout>
 #include <QTableWidget>
+#include <QPlainTextEdit>
 
 
 
@@ -24,6 +24,7 @@ public:
     void setIndex(EsIndex * esIndex);
     void setConn(Conn * conn);
     void setUrlBar();
+    void setParamBar(QString &paramStr);
 
 signals:
 
@@ -44,11 +45,13 @@ public slots:
     void wildcard();
     void exist();
 
+    void query();
+
 private:
     EsIndex * currIndex;
     QToolBar * toolBar;
     QLabel * resNum;
-    QTextBrowser * paramBar;
+    QPlainTextEdit * paramBar;
     QLineEdit * urlBar;
     QTableWidget * resultContent;
     Conn * conn;
