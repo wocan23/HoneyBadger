@@ -120,10 +120,22 @@ void EsQueryWidget::setConn(Conn *conn){
 void EsQueryWidget::setParamBar(QString &paramStr){
     QString jsonFormatParam = CommonUtils::toJsonFormat(paramStr);
     this->paramBar->setPlainText(jsonFormatParam);
+    // 字体
     QFont qf;
     qf.setBold(true);
-    qf.setPointSize(13);
+    qf.setPointSize(16);
+    qf.setFamily("华文仿宋");
+    qf.setLetterSpacing(QFont::AbsoluteSpacing,0.9);
+
     this->paramBar->setFont(qf);
+
+    // 颜色
+    QPalette p = this->paramBar->palette();
+    p.setColor(QPalette::Active, QPalette::Text, Qt::green);
+    this->paramBar->setPalette(p);
+
+
+
     bool finded = this->paramBar->find("FIELD",QTextDocument::FindCaseSensitively);
     QTextDocument* document = this->paramBar->document();
     QTextCursor cursor;
@@ -133,10 +145,12 @@ void EsQueryWidget::setParamBar(QString &paramStr){
     }else {
         cursor = document->find("FIELD",QTextDocument::FindCaseSensitively);
     }
+
+
     this->paramBar->setFocus();
 
     int pos = cursor.position();
-    this->paramBar->show();
+//    this->paramBar->show();
     QTextCursor cs =this->paramBar->textCursor();
     cs.movePosition(QTextCursor::Start);
     cs.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,pos);
