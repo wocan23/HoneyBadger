@@ -4,6 +4,7 @@
 #include "commonutils.h"
 #include <QPushButton>
 #include <QDebug>
+#include <simpleeditor.h>
 
 
 
@@ -61,7 +62,7 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     hboxLayout->addWidget(clearBtn);
     hboxLayout->addWidget(queryBtn);
     // 文本域:参数
-    QPlainTextEdit *paramBar = new QPlainTextEdit;
+    QPlainTextEdit *paramBar = new MyGCodeTextEdit;
     // 结果列表
     QTableWidget * resultContent = new QTableWidget;
     // 结果条数信息
@@ -131,7 +132,8 @@ void EsQueryWidget::setParamBar(QString &paramStr){
 
     // 颜色
     QPalette p = this->paramBar->palette();
-    p.setColor(QPalette::Active, QPalette::Text, Qt::green);
+    QColor color(75,75,75);
+    p.setColor(QPalette::Active, QPalette::Text, color);
     this->paramBar->setPalette(p);
 
 
@@ -333,8 +335,11 @@ void EsQueryWidget::range(){
     setUrlBar();
     QString paramStr = "{\
                             \"query\":{\
-                                \"term\":{\
-                                    \"field\":\"value\"\
+                                \"range\":{\
+                                    \"FIELD\":{\
+                                        \"gte\":0,\
+                                        \"lte\":20\
+                                    }\
                                 }\
                             }\
                         }";

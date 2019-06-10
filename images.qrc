@@ -8,4 +8,7 @@
         <file>pic/search.png</file>
         <file>pic/help.png</file>
     </qresource>
+    <qresource prefix="/syntax">
+        <file>syntax/keywords.txt</file>
+    </qresource>
 </RCC>

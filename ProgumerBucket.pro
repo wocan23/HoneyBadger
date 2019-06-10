@@ -44,6 +44,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         pagewidget.cpp \
+        simpleeditor.cpp \
         tabcontentwidget.cpp
 
 HEADERS += \
@@ -65,6 +66,7 @@ HEADERS += \
         indexinfodialog.h \
         mainwindow.h \
         pagewidget.h \
+        simpleeditor.h \
         tabcontentwidget.h
 
 FORMS += \
