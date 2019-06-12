@@ -1,0 +1,53 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include <QSplitter>
+#include <QScrollArea>
+#include "estoolbar.h"
+#include <QDebug>
+#include <QStringList>
+#include "httputils.h"
+#include "conn.h"
+#include "esindextabwidegt.h"
+#include "estreewidget.h"
+
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    this->esToolBar = new EsToolBar;
+    this->ui->toolBarLayout->addWidget(this->esToolBar);
+
+    QSplitter * splitter = new QSplitter(Qt::Horizontal);
+    
+    EsTreeWidget * treeWidget = new EsTreeWidget;
+    treeWidget->setHeaderHidden(true);
+    
+    
+    EsIndexTabWidegt *tab = new EsIndexTabWidegt;
+
+    QScrollArea * area = new QScrollArea;
+    area->setWidget(tab);
+   
+
+    splitter->setStretchFactor(0,1);
+    splitter->setStretchFactor(1,7);
+
+    splitter->addWidget(treeWidget);
+    splitter->addWidget(area);
+
+    this->ui->verticalLayout->addWidget(splitter);
+
+
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+
+
