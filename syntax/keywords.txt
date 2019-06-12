@@ -5,8 +5,8 @@ bool	     	          244    98    32
 match_phrase	          244    98    32
 match                     244    98    32
 should	                  244    98    32
-terms                     122    98    32
 term	                  244    98    32
+terms                     122    98    32
 ids	                  122    98    32
 fuzzy	                  122    98    204
 wildcard                  122    98    204
@@ -15,6 +15,3 @@ must	                  233    98    204
 exists                    191    198   32
 values                    191    198   32
 regex                     191    198   32
-range                     191    198   32
-lte                       233    98    204
-gte                       233    98    204
