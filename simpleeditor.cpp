@@ -256,7 +256,7 @@ void MyGCodeTextEdit::highlightCurrentLine()
     {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::blue).lighter(160);
+        QColor lineColor = QColor(Qt::yellow);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -269,6 +269,7 @@ void MyGCodeTextEdit::highlightCurrentLine()
 }
 
 void MyGCodeTextEdit::updateLineNumberArea(const QRect & rect, int dy)
+
 {
     if (dy)
         lineNumberArea->scroll(0, dy);

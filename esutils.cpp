@@ -152,7 +152,7 @@ bool EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QStri
     QJsonParseError jsonerror;
     QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
     QJsonObject obj = doc.object();
-    QJsonValue ack = obj.value("acknowledged");
+    QJsonValue ack = obj.contains("acknowledged");
     if(ack.isNull()){
         return false;
     }
