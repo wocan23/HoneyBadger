@@ -190,8 +190,8 @@ void EsTreeWidget::addAlias(){
         return;
     }
     QString newAlias = inputDialog->textValue();
-    bool ack = EsUtils::addAlias(conn,index,newAlias);
-    if(ack){
+    int ack = EsUtils::addAlias(conn,index,newAlias).code;
+    if(ack == 1){
         QStringList newAliases = index->getAliasNames() << newAlias;
         index->setAliasNames(newAliases);
         QMessageBox::information(this,"提示","添加成功","确定");
@@ -220,8 +220,8 @@ void EsTreeWidget::removeAlias(){
     }
     // 获取选择的内容
     QString selAlias = inputDialog->textValue();
-    bool ack = EsUtils::removeAlias(conn,index,selAlias);
-    if(ack){
+    int ack = EsUtils::removeAlias(conn,index,selAlias).code;
+    if(ack == 1){
         aliasNames.removeOne(selAlias);
         index->setAliasNames(aliasNames);
         QMessageBox::information(this,"提示","删除成功","确定");

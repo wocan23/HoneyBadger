@@ -1,4 +1,7 @@
 #include "esindextabwidegt.h"
+
+
+#include <QMessageBox>
 #include "estreewidgetitem.h"
 #include "esquerywidget.h"
 #include "tabcontentwidget.h"
@@ -17,6 +20,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QStringLiteral>
+
 
 
 
@@ -63,7 +67,12 @@ void EsIndexTabWidegt::addIndexTab(Conn *conn, EsIndex* esIndex){
     QString baseUrl = "http://"+conn->getIp()+":"+conn->getPort()+"/"+esIndex->getName()+"/_search";
     QString url = baseUrl +"?size=20";
     int totalSize;
-    QList<QMap<QString,QString>> list = EsUtils::query(url,"{}",totalSize);
+    EsResult result = EsUtils::query(url,"{}",totalSize);
+    if(result.code != 1){
+        QMessageBox::information(this,"查询失败",result.msg,"确定");
+        return;
+    }
+    QList<QMap<QString,QString>> list = result.data;
 
 
     QMap<QString,QString> mappings = esIndex->getMappings();

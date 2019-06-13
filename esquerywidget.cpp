@@ -162,7 +162,7 @@ void EsQueryWidget::setParamBar(QString &paramStr){
 
 void EsQueryWidget::query(){
     int totalSize = 0;
-    QList<QMap<QString,QString>> resList = EsUtils::query(this->urlBar->text(),this->paramBar->toPlainText(),totalSize);
+    QList<QMap<QString,QString>> resList = EsUtils::query(this->urlBar->text(),this->paramBar->toPlainText(),totalSize).data;
     QStringList fields = this->currIndex->getMappings().keys();
     CommonUtils::fullEsTableData(this->resultContent,resList,fields);
     this->resNum->setText("总"+QString::number(totalSize)+"条，默认显示10条");

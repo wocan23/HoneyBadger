@@ -9,12 +9,45 @@
 #include <QList>
 #include <QDebug>
 
+
+EsResult::EsResult(){
+
+}
+
+EsResult EsResult::success(){
+    EsResult result;
+    result.code = 1;
+    return result;
+}
+
+EsResult EsResult::success(QList<QMap<QString, QString> > data){
+    EsResult result;
+    result.code = 1;
+    result.data =  data;
+    return result;
+}
+
+EsResult EsResult::success(QString msg, QList<QMap<QString, QString> > data){
+    EsResult result;
+    result.code = 1;
+    result.msg = msg;
+    result.data =  data;
+    return result;
+}
+
+EsResult EsResult::failed(int code, QString msg){
+    EsResult result;
+    result.code = code;
+    result.msg = msg;
+    return result;
+}
+
 EsUtils::EsUtils()
 {
 
 }
 
-QList<QMap<QString,QString>> EsUtils::query(QString url,QString param,int& totalSize){
+EsResult EsUtils::query(QString url,QString param,int& totalSize){
     QString res = HttpUtils::Post(url,param);
     QJsonParseError parseError;
     QJsonDocument document = QJsonDocument::fromJson(res.toUtf8(),&parseError);
@@ -45,7 +78,7 @@ QList<QMap<QString,QString>> EsUtils::query(QString url,QString param,int& total
         }
         list->insert(i,*map);
     }
-    return *list;
+    return EsResult::success(*list);
 
 }
 
@@ -125,11 +158,22 @@ QString EsUtils::JsonValueToString(QJsonValue value){
     return rsvalue;
 }
 
-bool EsUtils::changeName(Conn *conn, EsIndex *esIndex, QString &newName){
-
+EsResult EsUtils::parseBoolEsResult(QString & resStr){
+    QJsonParseError jsonerror;
+    QJsonDocument doc = QJsonDocument::fromJson(resStr.toUtf8(), &jsonerror);
+    QJsonObject obj = doc.object();
+    QJsonValue ack = obj.contains("acknowledged");
+    if(ack.isNull()){
+        return EsResult::failed(0,"失败");
+    }
+    return EsResult::success();
+}
+EsResult EsUtils::changeName(Conn *conn, EsIndex *esIndex, QString &newName){
+    EsResult result;
+    return result;
 }
 
-bool EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QString &newAlias){
+EsResult EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QString &newAlias){
     QString indexName =  esIndex->getName();
     QString url ;
     getBaseUrl(url,conn);
@@ -149,17 +193,10 @@ bool EsUtils::changeAlias(Conn *conn, EsIndex *esIndex, QString &oldAlias, QStri
                   ] \
                 }");
     QString res = HttpUtils::Post(url,param);
-    QJsonParseError jsonerror;
-    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
-    QJsonObject obj = doc.object();
-    QJsonValue ack = obj.contains("acknowledged");
-    if(ack.isNull()){
-        return false;
-    }
-    return true;
+    return parseBoolEsResult(res);
 }
 
-bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
+EsResult EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
     QString indexName =  esIndex->getName();
     QString url ;
     getBaseUrl(url,conn);
@@ -175,17 +212,10 @@ bool EsUtils::removeAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
                   ] \
                 }");
     QString res = HttpUtils::Post(url,param);
-    QJsonParseError jsonerror;
-    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
-    QJsonObject obj = doc.object();
-    QJsonValue ack = obj.value("acknowledged");
-    if(ack.isNull()){
-        return false;
-    }
-    return true;
+    return parseBoolEsResult(res);
 }
 
-bool EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
+EsResult EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
     QString indexName =  esIndex->getName();
     QString url ;
     getBaseUrl(url,conn);
@@ -201,14 +231,7 @@ bool EsUtils::addAlias(Conn *conn, EsIndex *esIndex, QString &aliasName){
                   ] \
                 }");
     QString res = HttpUtils::Post(url,param);
-    QJsonParseError jsonerror;
-    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8(), &jsonerror);
-    QJsonObject obj = doc.object();
-    QJsonValue ack = obj.value("acknowledged");
-    if(ack.isNull()){
-        return false;
-    }
-    return true;
+    return parseBoolEsResult(res);
 }
 
 void EsUtils::getBaseUrl(QString &url, Conn *conn){
@@ -218,3 +241,5 @@ void EsUtils::getBaseUrl(QString &url, Conn *conn){
         url = "http://"+conn->getUserName()+":"+conn->getPwd()+"@"+conn->getIp()+":"+conn->getPort()+"/";
     }
 }
+
+
