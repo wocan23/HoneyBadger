@@ -57,9 +57,9 @@ EsResult EsUtils::query(QString url,QString param,int& totalSize){
     totalSize = hitObj.value("total").toInt();
     QJsonArray hitArr = hitObj.value("hits").toArray();
     int size = hitArr.size();
-    QList<QMap<QString,QString>> *list = new QList<QMap<QString,QString>>;
+    QList<QMap<QString,QString>> list;
     for (int i = 0 ; i < size; i ++) {
-        QMap<QString,QString>* map = new QMap<QString,QString>;
+        QMap<QString,QString> map;
         QJsonObject obj = hitArr.at(i).toObject();
         QStringList  keys = obj.keys();
         for (int j = 0; j < keys.size(); j++) {
@@ -71,14 +71,14 @@ EsResult EsUtils::query(QString url,QString param,int& totalSize){
                 for( int k = 0; k < sourceKeys.size(); k ++){
                     QString skey = sourceKeys.at(k);
                     QJsonValue sv = sObj.value(skey);
-                    map->insert(skey,JsonValueToString(sv));
+                    map.insert(skey,JsonValueToString(sv));
                 }
             }
-            map->insert(key,JsonValueToString(v));
+            map.insert(key,JsonValueToString(v));
         }
-        list->insert(i,*map);
+        list.insert(i,map);
     }
-    return EsResult::success(*list);
+    return EsResult::success(list);
 
 }
 
