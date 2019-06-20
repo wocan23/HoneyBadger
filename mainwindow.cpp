@@ -9,7 +9,11 @@
 #include "conn.h"
 #include "esindextabwidegt.h"
 #include <QScrollArea>
+#include <QSplitter>
+#include <QLabel>
 #include "estreewidget.h"
+
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,15 +30,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     EsIndexTabWidegt *tabWidget = new EsIndexTabWidegt;
 
+    QLabel * label = new QLabel("welecome");
     QScrollArea * scrollArea = new QScrollArea;
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(tabWidget);
 
-    this->ui->mainLayout->addWidget(treeWidget);
-    this->ui->mainLayout->addWidget(scrollArea);
+    QSplitter * splitter = new QSplitter;
+    splitter->addWidget(treeWidget);
+    splitter->addWidget(scrollArea);
+    splitter->setStretchFactor(0,2);
+    splitter->setStretchFactor(1,700);
 
-    this->ui->mainLayout->setStretch(0,2);
-    this->ui->mainLayout->setStretch(1,8);
+    this->ui->mainLayout->addWidget(splitter);
 
 }
 
