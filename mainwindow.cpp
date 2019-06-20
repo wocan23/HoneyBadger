@@ -8,6 +8,8 @@
 #include "httputils.h"
 #include "conn.h"
 #include "esindextabwidegt.h"
+#include <QScrollArea>
+#include "estreewidget.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,12 +19,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->esToolBar = new EsToolBar;
     this->ui->toolBarLayout->addWidget(this->esToolBar);
-//    this->ui->mainLayout.a
-    this->ui->treeWidget->setHeaderHidden(true);
+
+    EsTreeWidget * treeWidget = new EsTreeWidget;
+    treeWidget->setHeaderHidden(true);
+
+
     EsIndexTabWidegt *tabWidget = new EsIndexTabWidegt;
-    this->ui->scrollArea->setWidget(tabWidget);
 
+    QScrollArea * scrollArea = new QScrollArea;
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(tabWidget);
 
+    this->ui->mainLayout->addWidget(treeWidget);
+    this->ui->mainLayout->addWidget(scrollArea);
+
+    this->ui->mainLayout->setStretch(0,2);
+    this->ui->mainLayout->setStretch(1,8);
 
 }
 
