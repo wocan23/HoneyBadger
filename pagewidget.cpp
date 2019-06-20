@@ -40,7 +40,6 @@ PageWidget::PageWidget(int totalNum, int pageSize, int currentPage){
     cpage->setFixedWidth(BUTTON_WIDTH);
     cpage->setAlignment(Qt::AlignHCenter);
 
-
     toStart->setFixedWidth(BUTTON_2WIDTH);
     toEnd->setFixedWidth(BUTTON_2WIDTH);
     next->setFixedWidth(BUTTON_WIDTH);
@@ -125,6 +124,6 @@ void PageWidget::changeShow(int totalNum, int pageSize, int currentPage){
         this->currentPage = currentPage;
     }
     this->cpage->setText(QString::number(this->currentPage));
-    QString labelStr = "总"+QString::number(this->totalNum)+"条";
+    QString labelStr = "总"+QString::number(this->totalNum)+"条,共"+QString::number(totalPage)+"页";
     this->label->setText(labelStr);
 }

@@ -1,17 +1,14 @@
 #include "esindextabwidegt.h"
 
-
 #include <QMessageBox>
-#include "estreewidgetitem.h"
-#include "esquerywidget.h"
-#include "tabcontentwidget.h"
+#include "esutils.h"
 #include "handler.h"
+#include "tabcontentwidget.h"
+#include "esquerywidget.h"
+#include "estreewidgetitem.h"
 #include "pagewidget.h"
 #include "httputils.h"
-#include "esutils.h"
 #include "esindextablewidget.h"
-
-
 
 #include <QVBoxLayout>
 #include <QTextBrowser>

@@ -32,8 +32,6 @@ void TabContentWidget::flushData(QList<QMap<QString, QString> >& data, QStringLi
     tableWidget->setRowCount(data.size());
     tableWidget->setVisible(true);
     tableWidget->setShowGrid(true);
-//    QHeaderView * header = tableWidget->horizontalHeader();
-//    header->setSectionResizeMode(QHeaderView::Stretch);
     tableWidget->setHorizontalHeaderLabels(fields);
 
     for(int i = 0 ;i < data.size(); i ++){
