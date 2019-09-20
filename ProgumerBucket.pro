@@ -74,7 +74,7 @@ FORMS += \
         createconndialog.ui \
         indexinfodialog.ui \
         mainwindow.ui
-
+RC_ICONS = favicon.ico
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -82,3 +82,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     images.qrc
+
+

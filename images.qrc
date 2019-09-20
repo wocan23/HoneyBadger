@@ -7,6 +7,7 @@
         <file>pic/index.png</file>
         <file>pic/search.png</file>
         <file>pic/help.png</file>
+        <file>ico/favicon.ico</file>
     </qresource>
     <qresource prefix="/syntax">
         <file>syntax/keywords.txt</file>
