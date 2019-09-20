@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     EsIndexTabWidegt *tabWidget = new EsIndexTabWidegt;
 
-    QLabel * label = new QLabel("welecome");
     QScrollArea * scrollArea = new QScrollArea;
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(tabWidget);

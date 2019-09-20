@@ -15,8 +15,10 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 {
     Handler * hand = Handler::getInstance();
     connect(hand,SIGNAL(addConnSignal(Conn*)),this,SLOT(addConn(Conn*)));
+    connect(hand,SIGNAL(queryIndexSinal()),this,SLOT(queryAction()));
     connect(hand,SIGNAL(editConnSignal(Conn*)),this,SLOT(editConnFinish(Conn*)));
     connect(this,SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),this,SLOT(esItemDoubleClicked(QTreeWidgetItem*, int)));
+    connect(this,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(esItemClicked(QTreeWidgetItem*, int)));
 
     // 索引菜单
     QMenu * indexMenu = new QMenu;
@@ -97,6 +99,8 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     connect(addAlias, SIGNAL(triggered(bool)), this, SLOT(addAlias())); //右键动作槽
     connect(removeAlias, SIGNAL(triggered(bool)), this, SLOT(removeAlias())); //右键动作槽
     connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int )),this,SLOT(editFinish(QTreeWidgetItem *, int)));
+
+    this->setStyleSheet("QTreeView::branch::hover{background-color:rgb(224,238,238);} QTreeView::item::hover{background-color:rgb(224,238,238);} QTreeView::branch::selected{background-color:green;} QTreeView::item::selected{background-color:green;} ");
 
 }
 
@@ -285,4 +289,16 @@ void EsTreeWidget::updateConn(){
     Conn *conn = this->currentItem->getConn();
     CreateConnDialog* dialog = new CreateConnDialog(conn);
     dialog->exec();
+}
+
+void EsTreeWidget::esItemClicked(QTreeWidgetItem *item,int column){
+    EsTreeWidgetItem * esItem = (EsTreeWidgetItem*)item;
+    this->currentItem = esItem;
+
+}
+
+void EsTreeWidget::queryAction(){
+    if(this->currentItem->getEsItemType() == INDEX){
+        this->queryIndex();
+    }
 }

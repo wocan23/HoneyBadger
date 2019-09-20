@@ -17,6 +17,7 @@ signals:
     void addConnSignal(Conn * conn);
     void editConnSignal(Conn * conn);
     void addTabSignal(Conn*conn,EsIndex* esIndex, TabType tabType);
+    void queryIndexSinal();
 public:
     static Handler* getInstance();
     bool isDigitString(QString src);

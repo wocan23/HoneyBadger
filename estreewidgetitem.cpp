@@ -8,17 +8,17 @@
 
 EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidget *parent) : QTreeWidgetItem(parent)
 {
-    conn = NULL;
-    esIndex = NULL;
+    conn = nullptr;
+    esIndex = nullptr;
 }
 EsTreeWidgetItem::EsTreeWidgetItem(QTreeWidgetItem *parent) : QTreeWidgetItem(parent)
 {
-    conn = NULL;
-    esIndex = NULL;
+    conn = nullptr;
+    esIndex = nullptr;
 }
 
 EsTreeWidgetItem::~EsTreeWidgetItem(){
-    if (conn != NULL && this->esItemType == CONN){
+    if (conn != nullptr && this->esItemType == CONN){
         delete conn;
     }
 }
@@ -33,7 +33,6 @@ void EsTreeWidgetItem::doubleClickConn(){
 
     for (int i = 0; i < conn->getIndexSize(); i++) {
         EsTreeWidgetItem *docItem = new EsTreeWidgetItem(this);
-//        conn->getIndics()[i].setConn(conn);
         docItem->setText(0,conn->getIndics()[i].getName());
         docItem->setIcon(0,QIcon(":/icon/pic/index.png"));
         docItem->setEsItemType(INDEX);

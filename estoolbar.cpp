@@ -1,5 +1,6 @@
 #include "estoolbar.h"
 #include "createconndialog.h"
+#include "handler.h"
 
 EsToolBar::EsToolBar(QWidget *parent) : QToolBar(parent)
 {
@@ -22,6 +23,7 @@ EsToolBar::EsToolBar(QWidget *parent) : QToolBar(parent)
           this->addAction(act[i]);
       }
       connect(act[0],SIGNAL(triggered()),this,SLOT(createConnDialog()));
+      connect(act[4],SIGNAL(triggered()),this,SLOT(createSearchDialog()));
 
 }
 void EsToolBar::createConnDialog(){
@@ -42,5 +44,6 @@ void EsToolBar::createEditDocDialog(){
 }
 
 void EsToolBar::createSearchDialog(){
-
+    Handler * hanler = Handler::getInstance();
+    emit hanler->queryIndexSinal();
 }

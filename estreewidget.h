@@ -24,6 +24,7 @@ signals:
 public slots:
    void esItemDoubleClicked(QTreeWidgetItem* item, int index);
    void contextMenuEvent(QContextMenuEvent *event); //右键默认槽
+   void esItemClicked(QTreeWidgetItem* item, int column);
    void addConn(Conn *conn);
    void showConnInfo();
    void showIndexInfo();
@@ -40,6 +41,8 @@ public slots:
    void editConnFinish(Conn *conn);
    void editFinish(QTreeWidgetItem *item, int column);
    void removeConn();
+
+   void queryAction();// toolbar的query按钮
 
 private:
    QMenu * indexMenu;

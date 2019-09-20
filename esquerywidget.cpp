@@ -1,10 +1,14 @@
 #include "esquerywidget.h"
 
+
+#include <QSplitter>
+#include <QPushButton>
 #include "esutils.h"
 #include "commonutils.h"
-#include <QPushButton>
-#include <QDebug>
 #include <simpleeditor.h>
+
+
+
 
 
 
@@ -56,15 +60,24 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
     // 查询路径
     QHBoxLayout * hboxLayout = new QHBoxLayout;
     QLineEdit * urlBar = new QLineEdit;
+
     QPushButton * clearBtn = new QPushButton("清空");
     QPushButton * queryBtn = new QPushButton("查询");
     hboxLayout->addWidget(urlBar);
     hboxLayout->addWidget(clearBtn);
     hboxLayout->addWidget(queryBtn);
+
+
     // 文本域:参数
     QPlainTextEdit *paramBar = new MyGCodeTextEdit;
     // 结果列表
     QTableWidget * resultContent = new QTableWidget;
+
+    QSplitter *querySplitter = new QSplitter(Qt::Vertical);
+    querySplitter->addWidget(paramBar);
+    querySplitter->addWidget(resultContent);
+    querySplitter->setStretchFactor(0,2);
+    querySplitter->setStretchFactor(1,7);
     // 结果条数信息
     QLabel * resNum = new QLabel;
 
@@ -75,12 +88,12 @@ EsQueryWidget::EsQueryWidget(QWidget *parent) : QWidget(parent)
 
     boxLayout->addWidget(toolBar);
     boxLayout->addLayout(hboxLayout);
-    boxLayout->addWidget(paramBar);
-    boxLayout->addWidget(resultContent);
+//    boxLayout->addWidget(paramBar);
+    boxLayout->addWidget(querySplitter);
     boxLayout->addWidget(resNum);
 
-    boxLayout->setStretchFactor(paramBar,3);
-    boxLayout->setStretchFactor(resultContent,6);
+//    boxLayout->setStretchFactor(paramBar,3);
+//    boxLayout->setStretchFactor(resultContent,6);
     this->setLayout(boxLayout);
 
     // 槽事件

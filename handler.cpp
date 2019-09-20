@@ -34,3 +34,4 @@ QString Handler::getUUID(){
     QString strId = id.toString();
     return strId;
 }
+
