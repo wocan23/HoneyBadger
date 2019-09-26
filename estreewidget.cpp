@@ -121,16 +121,16 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
     // 查询数据库所有连接
     QSqlDatabase db;
     bool isOpen = SqliteDbOperator::openDb(DB_PATH,db);
-//    QString createSql = "CREATE TABLE if not exists \"es_index\" (\
-//                                                             \"id\" text NOT NULL,\
-//                                                             \"name\" text,\
-//                                                             \"ip\" text,\
-//                                                             \"port\" text,\
-//                                                             \"username\" text,\
-//                                                             \"pwd\" text,\
-//                                                            PRIMARY KEY(\"id\")\
-//                                                        );";
-//    SqliteDbOperator::exec(db,createSql);
+    QString createSql = "CREATE TABLE if not exists \"es_index\" (\
+                                                             \"id\" text NOT NULL,\
+                                                             \"name\" text,\
+                                                             \"ip\" text,\
+                                                             \"port\" text,\
+                                                             \"username\" text,\
+                                                             \"pwd\" text,\
+                                                            PRIMARY KEY(\"id\")\
+                                                        );";
+    SqliteDbOperator::exec(db,createSql);
     QString sql = "select *from es_index";
     QList<Conn*> conns = SqliteDbOperator::query(db,sql,fullConn);
     for(int i = 0; i < conns.size(); ++i){
@@ -197,6 +197,20 @@ void EsTreeWidget::editConnFinish(Conn *conn){
     connItem->setEsItemType(CONN);
     connItem->setOpen(false);
     this->closeConn();
+
+    QSqlDatabase db;
+    SqliteDbOperator::openDb(DB_PATH,db);
+
+    QString sql = "update es_index set name = ?,ip = ?, port =?,username=?, pwd=? where id = ?";
+    QList<QVariant> params;
+    params.append(conn->getConnName());
+    params.append(conn->getIp());
+    params.append(conn->getPort());
+    params.append(conn->getUserName());
+    params.append(conn->getPwd());
+    params.append(conn->getId());
+    SqliteDbOperator::update(db,sql,params);
+    db.close();
 }
 
 void EsTreeWidget::contextMenuEvent(QContextMenuEvent *event){
@@ -339,6 +353,15 @@ void EsTreeWidget::queryIndex(){
 
 void EsTreeWidget::removeConn(){
     this->removeItemWidget(this->currentItem,0);
+
+    QSqlDatabase db;
+    SqliteDbOperator::openDb(DB_PATH,db);
+    QString sql = "delete from es_index where id = ?";
+    QList<QVariant> params;
+    params.append(this->currentItem->getConn()->getId());
+    SqliteDbOperator::deleteF(db,sql,params);
+    db.close();
+
     delete this->currentItem;
 }
 
