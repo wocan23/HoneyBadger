@@ -13,7 +13,6 @@ class SqliteDbOperator
 public:
     // 打开数据库
     static bool openDb(QString dbName, QSqlDatabase& db);
-    //static QSqlDatabase openDb(QString dbName);
 
     // 查询模板
     template<typename T>static QList<T> query(QSqlDatabase& db, QString& sql, QList<QVariant> params, T(*fullFunc)(QSqlQuery&));
@@ -53,13 +52,6 @@ bool SqliteDbOperator::openDb(QString dbName, QSqlDatabase& db){
     bool isOpend = db.open();
     return isOpend;
 }
-
-//QSqlDatabase SqliteDbOperator::openDb(QString dbName){
-//    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-//    db.setDatabaseName(dbName);
-//    bool isOpend = db.open();
-//    return db;
-//}
 
 template<typename T>QList<T> SqliteDbOperator::query(QSqlDatabase& db, QString& sql, QList<QVariant> params, T(*fullFunc)(QSqlQuery&)){
     QList<T> list;
