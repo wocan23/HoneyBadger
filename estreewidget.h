@@ -26,6 +26,7 @@ public slots:
    void contextMenuEvent(QContextMenuEvent *event); //右键默认槽
    void esItemClicked(QTreeWidgetItem* item, int column);
    void addConn(Conn *conn);
+   void addConnItem(Conn * conn);
    void showConnInfo();
    void showIndexInfo();
 

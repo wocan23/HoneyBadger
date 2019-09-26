@@ -1,6 +1,8 @@
+#include "sqlitedboperator.h"
+#include "handler.h"
+#include "createconndialog.h"
 #include "estreewidget.h"
 #include "estreewidgetitem.h"
-#include "handler.h"
 #include "esutils.h"
 
 #include <QMessageBox>
@@ -9,7 +11,21 @@
 #include <QDebug>
 #include <QLineEdit>
 #include "esquerywidget.h"
-#include "createconndialog.h"
+
+
+#define DB_PATH "/Users/zhaoshuai/Documents/var/es.db"
+
+Conn* fullConn(QSqlQuery& query){
+    QString id = query.value("id").toString();
+    Conn *conn = new Conn;
+    conn->setId(id);
+    conn->setIp(query.value("ip").toString());
+    conn->setPort(query.value("port").toString());
+    conn->setConnName(query.value("name").toString());
+    conn->setUserName(query.value("username").toString());
+    conn->setPwd(query.value("pwd").toString());
+    return conn;
+}
 
 EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 {
@@ -102,6 +118,26 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 
     this->setStyleSheet("QTreeView::branch::hover{background-color:rgb(224,238,238);} QTreeView::item::hover{background-color:rgb(224,238,238);} QTreeView::branch::selected{background-color:green;} QTreeView::item::selected{background-color:green;} ");
 
+    // 查询数据库所有连接
+    QSqlDatabase db;
+    bool isOpen = SqliteDbOperator::openDb(DB_PATH,db);
+//    QString createSql = "CREATE TABLE if not exists \"es_index\" (\
+//                                                             \"id\" text NOT NULL,\
+//                                                             \"name\" text,\
+//                                                             \"ip\" text,\
+//                                                             \"port\" text,\
+//                                                             \"username\" text,\
+//                                                             \"pwd\" text,\
+//                                                            PRIMARY KEY(\"id\")\
+//                                                        );";
+//    SqliteDbOperator::exec(db,createSql);
+    QString sql = "select *from es_index";
+    QList<Conn*> conns = SqliteDbOperator::query(db,sql,fullConn);
+    for(int i = 0; i < conns.size(); ++i){
+        this->addConn(conns[i]);
+    }
+    db.close();
+
 }
 
 void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
@@ -122,8 +158,29 @@ void EsTreeWidget::esItemDoubleClicked(QTreeWidgetItem* item, int index){
 
 }
 
+QList<QVariant> fullParam(Conn& conn){
+    QList<QVariant> params;
+    params.append(conn.getId());
+    params.append(conn.getConnName());
+    params.append(conn.getIp());
+    params.append(conn.getPort());
+    params.append(conn.getUserName());
+    params.append(conn.getPwd());
+    return params;
+}
 
 void EsTreeWidget::addConn(Conn *conn){
+    addConnItem(conn);
+    // 添加数据库
+    QSqlDatabase db;
+    SqliteDbOperator::openDb(DB_PATH,db);
+
+    QString sql = "insert into es_index(id,name,ip,port,username,pwd)values(?,?,?,?,?,?)";
+    SqliteDbOperator::insertOne(db,sql,*conn,fullParam);
+    db.close();
+}
+
+void EsTreeWidget::addConnItem(Conn* conn){
     EsTreeWidgetItem *connItem = new EsTreeWidgetItem(this);
     connItem->setText(0,conn->getConnName());
     connItem->setIcon(0,QIcon(":/icon/pic/conn.png"));

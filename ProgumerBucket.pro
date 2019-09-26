@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -67,6 +67,7 @@ HEADERS += \
         mainwindow.h \
         pagewidget.h \
         simpleeditor.h \
+        sqlitedboperator.h \
         tabcontentwidget.h
 
 FORMS += \
