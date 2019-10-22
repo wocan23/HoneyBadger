@@ -120,7 +120,7 @@ EsTreeWidget::EsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 
     // 查询数据库所有连接
     QSqlDatabase db;
-    bool isOpen = SqliteDbOperator::openDb(DB_PATH,db);
+    SqliteDbOperator::openDb(DB_PATH,db);
     QString createSql = "CREATE TABLE if not exists \"es_index\" (\
                                                              \"id\" text NOT NULL,\
                                                              \"name\" text,\
@@ -252,7 +252,6 @@ void EsTreeWidget::editIndex(){
 void EsTreeWidget::addAlias(){
     Conn * conn = this->currentItem->getConn();
     EsIndex * index = this->currentItem->getEsIndex();
-    bool isOK;
     QStringList aliasNames = index->getAliasNames();
     QString oldAlias = aliasNames.join(",");
 
@@ -281,7 +280,6 @@ void EsTreeWidget::addAlias(){
 void EsTreeWidget::removeAlias(){
     Conn * conn = this->currentItem->getConn();
     EsIndex * index = this->currentItem->getEsIndex();
-    bool isOK;
     QStringList aliasNames = index->getAliasNames();
     QString oldAlias = aliasNames.join(",");
 

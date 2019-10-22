@@ -84,6 +84,7 @@ void SqliteDbOperator::deleteF(QSqlDatabase& db, QString& sql,QList<QVariant> pa
 template<typename T> int SqliteDbOperator::insertOne(QSqlDatabase& db, QString& sql, T data, QList<QVariant> (*fullParams)(T&)){
     QList<QVariant> params = fullParams(data);
     exec(db,sql,params);
+    return 0;
 }
 
 template<typename T> int SqliteDbOperator::insertSome(QSqlDatabase& db, QString& sql, QList<T> datas, QList<QVariant> (*fullParams)(T&)){
@@ -96,6 +97,7 @@ template<typename T> int SqliteDbOperator::insertSome(QSqlDatabase& db, QString&
 
 int SqliteDbOperator::update(QSqlDatabase &db, QString &sql, QList<QVariant> params){
     exec(db,sql,params);
+    return 0;
 }
 
 
@@ -105,7 +107,7 @@ QSqlQuery SqliteDbOperator::exec(QSqlDatabase &db, QString &sql, QList<QVariant>
     for (int i = 0; i < params.size(); ++i) {
         query.bindValue(i,params[i]);
     }
-    bool isSuccess = query.exec();
+    query.exec();
 //    QSqlError er = query.lastError();
 //    qDebug()<< er;
     return query;
