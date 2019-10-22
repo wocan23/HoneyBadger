@@ -187,6 +187,7 @@ void EsTreeWidget::addConnItem(Conn* conn){
     connItem->setConn(conn);
     connItem->setEsItemType(CONN);
     connItem->setOpen(false);
+    connItem->setToolTip(0,connItem->getConn()->getConnName());
 }
 
 void EsTreeWidget::editConnFinish(Conn *conn){
